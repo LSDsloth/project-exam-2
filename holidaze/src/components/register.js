@@ -1,11 +1,11 @@
 import { Box, Button, Container, Stack, TextField, Typography } from "@mui/material";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { registerFormEventListener } from "./handlers/register";
-
+import { registerUser } from "./api/auth/register";
 export const MUIRegister = () => {
   useEffect(() => {
     registerFormEventListener();
-  }, []); // The empty dependency array ensures this effect runs after initial rendering.
+  }, []);
 
   return (
     <Container>
@@ -13,9 +13,16 @@ export const MUIRegister = () => {
         Register
       </Typography>
       <Box component="form" id="registerForm">
-        <TextField pattern="^[\w]+$" autoFocus type="text" label="Name" name="name" />
-        <TextField label="Email" type="email" name="email" />
-        <TextField type="password" name="password" label="Password" />
+        <Box>
+          <TextField pattern="^[\w]+$" autoFocus type="text" label="Name" name="name" />
+          <Typography component="p" variant="caption"></Typography>
+        </Box>
+        <Box>
+          <TextField type="email" name="email" label="Email" />
+        </Box>
+        <Box>
+          <TextField type="password" name="password" label="Password" />
+        </Box>
         <Button type="submit" variant="contained">
           Register
         </Button>

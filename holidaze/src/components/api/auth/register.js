@@ -10,6 +10,8 @@ export async function registerUser(url, userData) {
     const response = await fetch(url, postData);
     const json = await response.json();
     console.log(json);
+
+    return json;
   } catch (error) {
     console.log(error.errors);
   }

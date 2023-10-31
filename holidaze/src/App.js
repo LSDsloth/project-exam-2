@@ -15,7 +15,7 @@ function App() {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <MUIRegister />
+      <MUILogin />
     </ThemeProvider>
   );
 }
