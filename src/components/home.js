@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { baseURL } from "./api/constants";
-import { Typography } from "@mui/material";
+// import { Typography } from "@mui/material";
 
 export const MUIHome = () => {
   const [venues, setVenues] = useState([]);
@@ -16,7 +16,7 @@ export const MUIHome = () => {
       const response = await fetch(`${baseURL}/venues?limit=10`);
       if (response.ok) {
         const result = await response.json();
-        setVenues(result); // Set the fetched data in the state
+        setVenues(result);
         // console.log(result);
       } else {
         console.error("Failed to fetch data:", response.status, response.statusText);

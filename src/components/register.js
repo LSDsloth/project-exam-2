@@ -1,7 +1,7 @@
 import { Box, Button, Container, Stack, TextField, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { registerFormEventListener } from "./handlers/register";
-import { registerUser } from "./api/auth/register";
+// import { registerUser } from "./api/auth/register";
 export const MUIRegister = () => {
   useEffect(() => {
     registerFormEventListener();
