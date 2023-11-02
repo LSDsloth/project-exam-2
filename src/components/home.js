@@ -13,7 +13,7 @@ export const MUIHome = () => {
           "Content-Type": "application/json",
         },
       };
-      const response = await fetch(`${baseURL}/venues?limit=10`);
+      const response = await fetch(`${baseURL}/venues?limit=10`, postData);
       if (response.ok) {
         const result = await response.json();
         setVenues(result);
