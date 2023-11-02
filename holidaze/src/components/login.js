@@ -16,7 +16,7 @@ export const MUILogin = () => {
           "Content-Type": "application/json",
         },
       };
-      const response = await fetch(`https://api.noroff.dev/api/v1/holidaze/venues`, postData);
+      const response = await fetch(`https://api.noroff.dev/api/v1/holidaze/venues?limit=20`, postData);
       console.log(response.url);
       const json = await response.json();
 
