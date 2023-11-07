@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { baseURL } from "./api/constants";
+import { Box, Typography } from "@mui/material";
 // import { Typography } from "@mui/material";
 
 export const MUIHome = () => {
@@ -33,7 +34,14 @@ export const MUIHome = () => {
     <>
       <ul>
         {venues.map((venue) => (
-          <li key={venue.id}>{venue.name}</li>
+          <>
+            <Typography component="h5" key={venue.id}>
+              {venue.name}
+            </Typography>
+            <Box sx={{ height: "200px", aspectRatio: "16 / 9", overflow: "hidden", position: "relative" }}>
+              <img className="venueImage" src={venue.media} alt={venue.name}></img>
+            </Box>
+          </>
         ))}
       </ul>
     </>
