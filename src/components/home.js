@@ -31,7 +31,11 @@ export const MUIHome = () => {
   }, []);
   return (
     <>
-      <ul></ul>
+      <ul>
+        {venues.map((venue) => (
+          <li key={venue.id}>{venue.name}</li>
+        ))}
+      </ul>
     </>
   );
 };
