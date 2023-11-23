@@ -33,11 +33,11 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   justifyContent: "center",
 }));
 
-const isLoggedIn = localStorage.getItem("isLoggedIn");
-console.log(isLoggedIn);
+// let isLoggedIn = localStorage.getItem("isLoggedIn");
 
 export const MUINavbar = () => {
   const [anchorEl, setAnchorEl] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn"));
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -45,6 +45,14 @@ export const MUINavbar = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    localStorage.setItem("accessToken", "");
+    localStorage.setItem("isLoggedIn", false);
+    // const accessToken = localStorage.getItem("accessToken");
+    // console.log(accessToken);
   };
 
   return (
@@ -120,7 +128,9 @@ export const MUINavbar = () => {
                     <MenuItem>Profile</MenuItem>
                     <MenuItem>Balance</MenuItem>
                     <Divider />
-                    <MenuItem>Logout</MenuItem>
+                    <Box>
+                      <MenuItem onClick={handleClick}>Logout</MenuItem>
+                    </Box>
                   </Menu>
                 )}
               </Box>
