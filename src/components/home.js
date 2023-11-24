@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { baseURL } from "./api/constants";
 import { venuesURL } from "./api/constants";
 import { useApi } from "./api/api";
 import { Box, Container, Grid, Tooltip, Typography, Link, CircularProgress, TextField } from "@mui/material";
@@ -7,7 +6,7 @@ import { Link as RouterLink } from "react-router-dom";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 export const MUIHome = () => {
-  const { data, isLoading, isError } = useApi(venuesURL);
+  const { data, isLoading, isError } = useApi(`${venuesURL}?limit=20`);
   // const [venues, setVenues] = useState([]);
   const [searchQuery, setSearchQuery] = useState(""); // State for the search query
 
@@ -75,7 +74,7 @@ export const MUIHome = () => {
                     src={venue.media}
                     alt={venue.name}
                     onError={(e) => {
-                      e.target.src = "images/placeholder.webp";
+                      e.target.src = "../../images/placeholder.webp";
                     }}></img>
                 </Box>
               </Link>

@@ -126,7 +126,9 @@ export const MUINavbar = () => {
                 {isLoggedIn && (
                   <Menu id="menu-appbar" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
                     <MenuItem>Profile</MenuItem>
-                    <MenuItem>Balance</MenuItem>
+                    <Link color="inherit" sx={{ textDecoration: "none" }} component={RouterLink} to="create-venue">
+                      <MenuItem>Create a venue</MenuItem>
+                    </Link>
                     <Divider />
                     <Box>
                       <MenuItem onClick={handleClick}>Logout</MenuItem>

@@ -25,3 +25,17 @@ export function useApi(url) {
   }, [url]);
   return { data, isLoading, isError };
 }
+
+export function PostVenues(url) {
+  useEffect(() => {
+    async function getData() {
+      try {
+        const response = await fetch(url);
+        const venue = await response.json();
+        console.log(venue);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  });
+}
