@@ -10,6 +10,7 @@ export const MUIHome = () => {
   // const [venues, setVenues] = useState([]);
   const [searchQuery, setSearchQuery] = useState(""); // State for the search query
 
+  console.log(data);
   // useEffect(() => {
   //   async function getVenues() {
   //     try {
