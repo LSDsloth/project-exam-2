@@ -28,12 +28,12 @@ export function useApi(url) {
 
 export async function PostVenue(url, userData) {
   const accessToken = localStorage.getItem("accessToken");
-  console.log(accessToken);
+  const cleaneddAccesstoken = accessToken.replace(/^"|"$/g, "");
   const postData = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${cleaneddAccesstoken}`,
     },
     body: JSON.stringify(userData),
   };
