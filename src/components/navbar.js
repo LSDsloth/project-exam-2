@@ -5,8 +5,7 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
-import { grey } from "@mui/material/colors";
-import { Box, Button, Container, Divider, Link, Menu, MenuItem, TextField, Toolbar, Typography, styled } from "@mui/material";
+import { Box, Button, Container, Divider, Link, Menu, MenuItem, Toolbar, Typography, styled } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import { useState } from "react";
 
@@ -33,11 +32,9 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   justifyContent: "center",
 }));
 
-// let isLoggedIn = localStorage.getItem("isLoggedIn");
-
 export const MUINavbar = () => {
   const [anchorEl, setAnchorEl] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn"));
+  const isLoggedIn = useState(localStorage.getItem("isLoggedIn"));
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
