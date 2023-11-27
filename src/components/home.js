@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { venuesURL } from "./api/constants";
 import { useApi } from "./api/api";
 import { Box, Container, Grid, Tooltip, Typography, Link, CircularProgress, TextField } from "@mui/material";
