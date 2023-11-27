@@ -27,13 +27,17 @@ export function useApi(url) {
 }
 
 export async function PostVenue(url, userData) {
+  const accessToken = localStorage.getItem("accessToken");
+  console.log(accessToken);
   const postData = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
     },
     body: JSON.stringify(userData),
   };
+  console.log(postData);
   const response = await fetch(url, postData);
   const data = await response.json();
   console.log(data);

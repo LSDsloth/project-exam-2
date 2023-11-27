@@ -22,12 +22,12 @@ export const MUICreateVenue = () => {
         </FormControl>
         <FormControl required>
           <InputLabel htmlFor="price">Price</InputLabel>
-          <Input id="price" name="price" aria-describedby="my-helper-text" />
+          <Input id="price" name="price" type="number" aria-describedby="my-helper-text" />
           <FormHelperText id="my-helper-text">We'll never share your email.</FormHelperText>
         </FormControl>
         <FormControl required>
           <InputLabel htmlFor="maxGuests">Max guests</InputLabel>
-          <Input id="maxGuests" name="maxGuests" aria-describedby="my-helper-text" />
+          <Input id="maxGuests" type="number" name="maxGuests" aria-describedby="my-helper-text" />
           <FormHelperText id="my-helper-text">We'll never share your email.</FormHelperText>
         </FormControl>
         <Button type="submit">Submit</Button>
