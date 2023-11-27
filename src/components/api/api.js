@@ -27,15 +27,40 @@ export function useApi(url) {
 }
 
 export function PostVenues(url) {
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+
   useEffect(() => {
     async function getData() {
       try {
+        setIsLoading(true);
+        setIsError(false);
         const response = await fetch(url);
         const venue = await response.json();
-        console.log(venue);
+        setData(venue);
       } catch (error) {
         console.log(error);
+        setIsError(true);
+      } finally {
+        setIsLoading(false);
       }
     }
-  });
+
+    getData();
+  }, [url]);
+  return { data, isLoading, isError };
+}
+
+export async function PostVenue(url, userData) {
+  const postData = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(userData),
+  };
+  const response = await fetch(url, postData);
+  const data = await response.json();
+  console.log(data);
 }

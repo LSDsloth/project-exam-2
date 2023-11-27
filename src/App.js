@@ -31,7 +31,7 @@ function App() {
             <Route path="/register" element={<MUIRegister />} />
             <Route path="/login" element={<MUILogin />} />
             <Route path="/venues" element={<MUIVenue />} />
-            <Route path="/createVenue" element={<MUICreateVenue />} />
+            <Route path="/create-venue" element={<MUICreateVenue />} />
           </Routes>
         </Container>
       </ThemeProvider>
