@@ -62,3 +62,27 @@ export async function SetVenueManager(url, isVenueManager) {
   const data = await response.json();
   console.log(data);
 }
+
+export async function UpdateAvatar(url, avatarURL) {
+  const accessToken = localStorage.getItem("accessToken");
+  const cleaneddAccesstoken = accessToken.replace(/^"|"$/g, "");
+  const profile = JSON.parse(localStorage.getItem("profile"));
+  const name = profile.name;
+  try {
+    const postData = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${cleaneddAccesstoken}`,
+      },
+      body: JSON.stringify({ avatar: avatarURL }),
+    };
+    console.log(postData);
+    const response = await fetch(`${url}/${name}/media`, postData);
+    console.log(response);
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.log(error);
+  }
+}

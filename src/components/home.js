@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { venuesURL } from "./api/constants";
 import { useApi } from "./api/api";
-import { Box, Container, Grid, Tooltip, Typography, Link, CircularProgress, TextField } from "@mui/material";
+import { Box, Grid, Tooltip, Typography, Link, CircularProgress, TextField } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 

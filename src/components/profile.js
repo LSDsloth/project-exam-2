@@ -1,7 +1,8 @@
-import { Avatar, Box, Button, Divider, FormControl, FormControlLabel, FormHelperText, FormLabel, IconButton, Input, InputAdornment, InputLabel, Modal, Paper, Stack, Switch, Typography } from "@mui/material";
+import { Avatar, Box, Button, Divider, FormControl, FormControlLabel, IconButton, Input, InputAdornment, Paper, Stack, Switch, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { SetVenueManager } from "./api/api";
-import { setVenueManagerURL } from "./api/constants";
+import { updateAvatarURL } from "./api/constants";
+import { updateAvatarFormEventListener } from "./handlers/updateAvatar";
 import EditIcon from "@mui/icons-material/Edit";
 
 export const MUIProfile = () => {
@@ -15,7 +16,7 @@ export const MUIProfile = () => {
   const handleClose = () => setModalOpen(false);
 
   console.log(profile);
-  //   console.log(name);
+
   console.log(`Venue manager is ${profile.venueManager} before I click the switch`);
   function handleChange(e) {
     const isChecked = e.target.checked;
@@ -23,7 +24,7 @@ export const MUIProfile = () => {
     profile.venueManager = isChecked;
     const updatedProfile = JSON.stringify(profile);
     localStorage.setItem("profile", updatedProfile);
-    SetVenueManager(setVenueManagerURL, profile.venueManager);
+    SetVenueManager(updateAvatarURL, profile.venueManager);
     console.log(`Venue manager is updated to ${profile.venueManager}`);
     console.log(profile);
   }
@@ -31,6 +32,14 @@ export const MUIProfile = () => {
   useEffect(() => {
     console.log("Updated isVenueManager:", isVenueManager);
   }, [isVenueManager]);
+
+  const handleFormSubmit = () => {
+    // Call updateAvatarFormEventListener when you want to attach the event listener
+    updateAvatarFormEventListener();
+
+    // Additional code you want to run when the form is submitted
+    console.log("Form submit button clicked");
+  };
 
   return (
     <>
@@ -57,20 +66,20 @@ export const MUIProfile = () => {
               </IconButton>
             )}
           </Box>
-          <Modal open={modalOpen} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
-            <Paper elevation={2} sx={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", padding: "16px", borderRadius: "10px" }}>
-              <Box component="form">
-                <Typography variant="h6" paddingBottom={2} sx={{ textAlign: "center" }}>
-                  Update avatar
-                </Typography>
-                {/* <InputLabel htmlFor="url">New avatar</InputLabel> */}
-                <Input size="small" autoFocus id="avatar" type="url" name="avatar" aria-describedby="my-helper-text" startAdornment={<InputAdornment position="start">URL:</InputAdornment>} />
-                <Button type="submit" color="primary">
-                  Update
-                </Button>
-              </Box>
-            </Paper>
-          </Modal>
+          {/* <Modal open={modalOpen} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description"> */}
+          <Paper elevation={2} sx={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", padding: "16px", borderRadius: "10px" }}>
+            <Box onClick={handleFormSubmit} component="form" id="updateAvatarForm">
+              <Typography variant="h6" paddingBottom={2} sx={{ textAlign: "center" }}>
+                Update avatar
+              </Typography>
+              {/* <InputLabel htmlFor="url">New avatar</InputLabel> */}
+              <Input size="small" autoFocus id="avatar" type="url" name="avatar" aria-describedby="my-helper-text" startAdornment={<InputAdornment position="start">URL:</InputAdornment>} />
+              <Button type="submit" color="primary">
+                Update
+              </Button>
+            </Box>
+          </Paper>
+          {/* </Modal> */}
         </Box>
         <Divider />
       </Stack>

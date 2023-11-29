@@ -1,4 +1,4 @@
-import { Box, Button, Container, FormControl, FormHelperText, FormLabel, Input, InputLabel } from "@mui/material";
+import { Box, Button, FormControl, FormHelperText, FormLabel, Input, InputLabel } from "@mui/material";
 import { postVenueFormEventListener } from "./handlers/createVenue";
 import { useEffect } from "react";
 export const MUICreateVenue = () => {
