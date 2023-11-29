@@ -1,36 +1,11 @@
 import AppBar from "@mui/material/AppBar";
 import IconButton from "@mui/material/IconButton";
-import InputBase from "@mui/material/InputBase";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
 import { Box, Button, Container, Divider, Link, Menu, MenuItem, Toolbar, Typography, styled } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import { useState } from "react";
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(72px - 1em)`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
-    },
-  },
-}));
-
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  position: "absolute",
-  height: "39px",
-  padding: theme.spacing(0, 2),
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
 
 export const MUINavbar = () => {
   const [anchorEl, setAnchorEl] = useState(false);
@@ -64,12 +39,6 @@ export const MUINavbar = () => {
                 </Typography>
                 <WorkOutlineOutlinedIcon fontSize="small" color="primary" />
               </Link>
-              <Box sx={{ backgroundColor: "grey.800", borderRadius: "5px", position: "relative" }}>
-                <SearchIconWrapper>
-                  <SearchOutlinedIcon />
-                </SearchIconWrapper>
-                <StyledInputBase placeholder="Search..." />
-              </Box>
             </Box>
             <Box sx={{ display: "inline-block" }}>
               <Link component={RouterLink} to="/">
@@ -122,7 +91,9 @@ export const MUINavbar = () => {
                 </IconButton>
                 {isLoggedIn && (
                   <Menu id="menu-appbar" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
-                    <MenuItem>Profile</MenuItem>
+                    <Link color="inherit" sx={{ textDecoration: "none" }} component={RouterLink} to="profile">
+                      <MenuItem>Profile</MenuItem>
+                    </Link>
                     <Link color="inherit" sx={{ textDecoration: "none" }} component={RouterLink} to="create-venue">
                       <MenuItem>Create a venue</MenuItem>
                     </Link>

@@ -57,7 +57,7 @@ export const MUIHome = () => {
   });
 
   return (
-    <Container sx={{ marginY: "50px" }}>
+    <>
       <Box className="searchBar-wrapper">
         <TextField label="Search for a product" variant="outlined" fullWidth value={searchQuery} onChange={handleSearch} />
       </Box>
@@ -91,6 +91,6 @@ export const MUIHome = () => {
           </Grid>
         ))}
       </Grid>
-    </Container>
+    </>
   );
 };

@@ -42,3 +42,23 @@ export async function PostVenue(url, userData) {
   const data = await response.json();
   console.log(data);
 }
+
+export async function SetVenueManager(url, isVenueManager) {
+  const accessToken = localStorage.getItem("accessToken");
+  const cleaneddAccesstoken = accessToken.replace(/^"|"$/g, "");
+  const profile = JSON.parse(localStorage.getItem("profile"));
+  const name = profile.name;
+  const postData = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${cleaneddAccesstoken}`,
+    },
+    body: JSON.stringify({ venueManager: isVenueManager }),
+  };
+  console.log(postData);
+  const response = await fetch(`${url}/${name}`, postData);
+  console.log(response);
+  const data = await response.json();
+  console.log(data);
+}

@@ -8,7 +8,7 @@ export const MUIRegister = () => {
   }, []);
 
   return (
-    <Container>
+    <>
       <Typography variant="h1" component="h1">
         Register
       </Typography>
@@ -27,6 +27,6 @@ export const MUIRegister = () => {
           Register
         </Button>
       </Box>
-    </Container>
+    </>
   );
 };

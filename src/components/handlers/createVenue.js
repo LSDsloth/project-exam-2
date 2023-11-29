@@ -2,12 +2,11 @@ import { PostVenue } from "../api/api";
 import { venuesURL } from "../api/constants";
 
 export function postVenueFormEventListener() {
-  const postVenue = document.querySelector("#postVenueForm");
-  console.log(postVenue);
+  const postVenueForm = document.querySelector("#postVenueForm");
 
-  postVenue.addEventListener("submit", async (e) => {
+  postVenueForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const formData = new FormData(postVenue);
+    const formData = new FormData(postVenueForm);
 
     // Convert "price" and "maxGuests" to numbers
     const userData = {

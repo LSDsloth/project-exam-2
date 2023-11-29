@@ -9,6 +9,7 @@ import { MUILogin } from "./components/login";
 import { MUIRegister } from "./components/register";
 import { MUIVenue } from "./components/venues";
 import { MUICreateVenue } from "./components/createVenue";
+import { MUIProfile } from "./components/profile";
 import { lightBlue } from "@mui/material/colors";
 import { Container } from "@mui/material";
 
@@ -32,6 +33,7 @@ function App() {
             <Route path="/login" element={<MUILogin />} />
             <Route path="/venues" element={<MUIVenue />} />
             <Route path="/create-venue" element={<MUICreateVenue />} />
+            <Route path="/profile" element={<MUIProfile />} />
           </Routes>
         </Container>
       </ThemeProvider>

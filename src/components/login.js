@@ -29,7 +29,7 @@ export const MUILogin = () => {
   allListings();
 
   return (
-    <Container>
+    <>
       <Typography variant="h1" component="h1">
         Login
       </Typography>
@@ -40,6 +40,6 @@ export const MUILogin = () => {
           Log in
         </Button>
       </Box>
-    </Container>
+    </>
   );
 };
