@@ -1,15 +1,20 @@
-import { Avatar, Box, Button, Divider, FormControl, FormControlLabel, IconButton, Input, InputAdornment, Paper, Stack, Switch, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Avatar, Box, Button, Divider, FormControl, FormControlLabel, IconButton, Input, InputAdornment, Modal, Paper, Stack, Switch, Tab, Tabs, Typography } from "@mui/material";
+import { useState } from "react";
 import { SetVenueManager } from "./api/api";
 import { updateAvatarURL } from "./api/constants";
 import { updateAvatarFormEventListener } from "./handlers/updateAvatar";
+import { GetVenues } from "./api/api";
 import EditIcon from "@mui/icons-material/Edit";
+import PropTypes from "prop-types";
 
 export const MUIProfile = () => {
   const isLoggedIn = localStorage.getItem("isLoggedIn");
   const profile = JSON.parse(localStorage.getItem("profile"));
   const [isVenueManager, setIsVenueManager] = useState(profile.venueManager || false);
   const [isHovered, setIsHovered] = useState(false);
+  const avatarPicture = profile.avatar;
+  const { myVenues } = GetVenues(updateAvatarURL);
+  console.log(myVenues);
 
   const [modalOpen, setModalOpen] = useState(false);
   const handleOpen = () => setModalOpen(true);
@@ -18,6 +23,7 @@ export const MUIProfile = () => {
   console.log(profile);
 
   console.log(`Venue manager is ${profile.venueManager} before I click the switch`);
+
   function handleChange(e) {
     const isChecked = e.target.checked;
     setIsVenueManager(isChecked);
@@ -29,16 +35,41 @@ export const MUIProfile = () => {
     console.log(profile);
   }
 
-  useEffect(() => {
-    console.log("Updated isVenueManager:", isVenueManager);
-  }, [isVenueManager]);
-
-  const handleFormSubmit = () => {
-    // Call updateAvatarFormEventListener when you want to attach the event listener
+  function handleThis() {
     updateAvatarFormEventListener();
+  }
 
-    // Additional code you want to run when the form is submitted
-    console.log("Form submit button clicked");
+  function CustomTabPanel(props) {
+    const { children, value, index, ...other } = props;
+
+    return (
+      <div role="tabpanel" hidden={value !== index} id={`simple-tabpanel-${index}`} aria-labelledby={`simple-tab-${index}`} {...other}>
+        {value === index && (
+          <Box sx={{ p: 3 }}>
+            <Typography>{children}</Typography>
+          </Box>
+        )}
+      </div>
+    );
+  }
+
+  CustomTabPanel.propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.number.isRequired,
+    value: PropTypes.number.isRequired,
+  };
+
+  function a11yProps(index) {
+    return {
+      id: `simple-tab-${index}`,
+      "aria-controls": `simple-tabpanel-${index}`,
+    };
+  }
+
+  const [value, setValue] = useState(0);
+
+  const handleChanges = (event, newValue) => {
+    setValue(newValue);
   };
 
   return (
@@ -49,14 +80,14 @@ export const MUIProfile = () => {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             onClick={handleOpen}
-            sx={{ margin: "0 auto", lineHeight: "100px", position: "relative", display: "flex", justifyContent: "center", width: "fit-content" }}>
-            <Avatar sx={{ alignSelf: "center", aspectRatio: "1 / 1", width: "100px", height: "100px" }} alt="" src={profile.avatar === null ? console.log("error") : console.log("Not error")} />
+            sx={{ margin: "10px auto", lineHeight: "100px", position: "relative", display: "flex", justifyContent: "center", width: "fit-content" }}>
+            <Avatar sx={{ alignSelf: "center", aspectRatio: "1 / 1", width: "100px", height: "100px" }} alt="" src={avatarPicture} />
             {/* Conditionally render EditIcon when hovered */}
             {isHovered && (
               <IconButton
                 sx={{
-                  width: "25px",
-                  height: "25px",
+                  width: "100%",
+                  height: "100%",
                   position: "absolute",
                   bottom: 0,
                   right: 0,
@@ -66,32 +97,48 @@ export const MUIProfile = () => {
               </IconButton>
             )}
           </Box>
-          {/* <Modal open={modalOpen} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description"> */}
-          <Paper elevation={2} sx={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", padding: "16px", borderRadius: "10px" }}>
-            <Box onClick={handleFormSubmit} component="form" id="updateAvatarForm">
-              <Typography variant="h6" paddingBottom={2} sx={{ textAlign: "center" }}>
-                Update avatar
-              </Typography>
-              {/* <InputLabel htmlFor="url">New avatar</InputLabel> */}
-              <Input size="small" autoFocus id="avatar" type="url" name="avatar" aria-describedby="my-helper-text" startAdornment={<InputAdornment position="start">URL:</InputAdornment>} />
-              <Button type="submit" color="primary">
-                Update
-              </Button>
-            </Box>
-          </Paper>
-          {/* </Modal> */}
+          <Typography textAlign="center" variant="h5">
+            {profile.name}
+          </Typography>
+          <Modal open={modalOpen} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+            <Paper elevation={2} sx={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", padding: "16px", borderRadius: "10px" }}>
+              <Box onClick={handleThis} component="form" id="updateAvatarForm">
+                <Typography variant="h6" paddingBottom={2} sx={{ textAlign: "center" }}>
+                  Update avatar
+                </Typography>
+                {/* <InputLabel htmlFor="url">New avatar</InputLabel> */}
+                <Input size="small" autoFocus id="avatar" type="url" name="avatar" aria-describedby="my-helper-text" startAdornment={<InputAdornment position="start">URL:</InputAdornment>} />
+                <Button type="submit" color="primary">
+                  Update
+                </Button>
+              </Box>
+            </Paper>
+          </Modal>
         </Box>
+        <Tabs value={value} onChange={handleChanges} aria-label="basic tabs example">
+          <Tab label="Bookings" {...a11yProps(0)} />
+          <Tab label="Your venues" {...a11yProps(1)} />
+          <Tab label="Item Three" {...a11yProps(2)} />
+        </Tabs>
         <Divider />
+        <CustomTabPanel value={value} index={0}>
+          Bookings
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={1}>
+          {isLoggedIn === true ? (
+            <Typography>You have to log in </Typography>
+          ) : (
+            <Box>
+              <FormControl>
+                <FormControlLabel control={<Switch checked={isVenueManager} onClick={handleChange} />} label="Be a venue manager" />
+              </FormControl>
+            </Box>
+          )}
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={2}>
+          Item Three
+        </CustomTabPanel>
       </Stack>
-      {isLoggedIn === true ? (
-        <Typography>You have to log in </Typography>
-      ) : (
-        <Box>
-          <FormControl>
-            <FormControlLabel control={<Switch checked={isVenueManager} onClick={handleChange} />} label="Be a venue manager" />
-          </FormControl>
-        </Box>
-      )}
     </>
   );
 };

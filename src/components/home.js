@@ -6,7 +6,7 @@ import { Link as RouterLink } from "react-router-dom";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 export const MUIHome = () => {
-  const { data, isLoading, isError } = useApi(`${venuesURL}?limit=20&sort=created`);
+  const { data, isLoading, isError } = useApi(`${venuesURL}?limit=20&sort=created&_owner=true`);
   // const [venues, setVenues] = useState([]);
   const [searchQuery, setSearchQuery] = useState(""); // State for the search query
 
