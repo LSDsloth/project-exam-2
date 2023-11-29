@@ -3,18 +3,17 @@ import { useState } from "react";
 import { SetVenueManager } from "./api/api";
 import { updateAvatarURL } from "./api/constants";
 import { updateAvatarFormEventListener } from "./handlers/updateAvatar";
-import { GetVenues } from "./api/api";
+import { useGetVenues } from "./api/api";
 import EditIcon from "@mui/icons-material/Edit";
 import PropTypes from "prop-types";
 
 export const MUIProfile = () => {
-  const isLoggedIn = localStorage.getItem("isLoggedIn");
+  //   const isLoggedIn = localStorage.getItem("isLoggedIn");
   const profile = JSON.parse(localStorage.getItem("profile"));
   const [isVenueManager, setIsVenueManager] = useState(profile.venueManager || false);
   const [isHovered, setIsHovered] = useState(false);
   const avatarPicture = profile.avatar;
-  const { myVenues } = GetVenues(updateAvatarURL);
-  console.log(myVenues);
+  const { data } = useGetVenues(updateAvatarURL);
 
   const [modalOpen, setModalOpen] = useState(false);
   const handleOpen = () => setModalOpen(true);
@@ -125,8 +124,8 @@ export const MUIProfile = () => {
           Bookings
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          {isLoggedIn === true ? (
-            <Typography>You have to log in </Typography>
+          {profile.venueManager === true ? (
+            data.map((venue) => <Typography>{venue.name}</Typography>)
           ) : (
             <Box>
               <FormControl>

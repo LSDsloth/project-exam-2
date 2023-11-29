@@ -27,8 +27,6 @@ export function useApi(url) {
 }
 
 export async function PostVenue(url, userData) {
-  const [data, setData] = useState([]);
-
   const accessToken = localStorage.getItem("accessToken");
   const cleaneddAccesstoken = accessToken.replace(/^"|"$/g, "");
   const postData = {
@@ -41,29 +39,42 @@ export async function PostVenue(url, userData) {
   };
   console.log(postData);
   const response = await fetch(url, postData);
-  const venue = await response.json();
-  setData(venue);
-  console.log(data);
-  return { data };
-}
-
-export async function GetVenues(url) {
-  const accessToken = localStorage.getItem("accessToken");
-  const cleaneddAccesstoken = accessToken.replace(/^"|"$/g, "");
-  const profile = JSON.parse(localStorage.getItem("profile"));
-  const name = profile.name;
-  const postData = {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${cleaneddAccesstoken}`,
-    },
-  };
-  console.log(postData);
-  const response = await fetch(`${url}/${name}/venues`, postData);
-  console.log(response);
   const data = await response.json();
   console.log(data);
+}
+
+export function useGetVenues(url) {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const accessToken = localStorage.getItem("accessToken");
+        const cleanedAccessToken = accessToken.replace(/^"|"$/g, "");
+        const profile = JSON.parse(localStorage.getItem("profile"));
+        const name = profile.name;
+
+        const postData = {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${cleanedAccessToken}`,
+          },
+        };
+
+        const response = await fetch(`${url}/${name}/venues`, postData);
+        const venueData = await response.json();
+        setData(venueData);
+        console.log(venueData);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, [url]);
+
+  return { data };
 }
 
 export async function SetVenueManager(url, isVenueManager) {
