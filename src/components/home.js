@@ -1,40 +1,17 @@
 import { useState } from "react";
 import { venuesURL } from "./api/constants";
 import { useApi } from "./api/api";
-import { Box, Grid, Tooltip, Typography, Link, CircularProgress, TextField } from "@mui/material";
+import { Box, Grid, Tooltip, Typography, Link, CircularProgress, TextField, Pagination } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 export const MUIHome = () => {
-  const { data, isLoading, isError } = useApi(`${venuesURL}?limit=20&sort=created&_owner=true`);
-  // const [venues, setVenues] = useState([]);
   const [searchQuery, setSearchQuery] = useState(""); // State for the search query
+  const [currentPage, setCurrentPage] = useState(1);
 
-  console.log(data);
-  // useEffect(() => {
-  //   async function getVenues() {
-  //     try {
-  //       const postData = {
-  //         method: "GET",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       };
-  //       const response = await fetch(`${baseURL}/venues?limit=10`, postData);
-  //       if (response.ok) {
-  //         const json = await response.json();
-  //         setVenues(json);
-  //         console.log(json);
-  //       } else {
-  //         console.log(response);
-  //         console.error("Failed to fetch data:", response.status, response.statusText);
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
-  //   getVenues();
-  // }, []);
+  const offset = (currentPage - 1) * 20;
+
+  const { data, isLoading, isError } = useApi(`${venuesURL}`, offset, 20); // Fetch all venues initially
 
   if (isLoading) {
     return (
@@ -52,14 +29,24 @@ export const MUIHome = () => {
     setSearchQuery(event.target.value);
   };
 
+  const handlePageChange = (event, page) => {
+    setCurrentPage(page);
+  };
+
   const filteredVenues = data.filter((venue) => {
     return venue.name.toLowerCase().includes(searchQuery.toLowerCase());
   });
 
+  // Calculate offset based on current page
+  const startIndex = offset;
+  const endIndex = offset + 20;
+  const venuesToDisplay = filteredVenues.slice(startIndex, endIndex);
+  console.log(venuesToDisplay);
+
   return (
     <>
       <Box className="searchBar-wrapper">
-        <TextField label="Search for a product" variant="outlined" fullWidth value={searchQuery} onChange={handleSearch} />
+        <TextField size="small" label="Search for a venue" variant="outlined" fullWidth value={searchQuery} onChange={handleSearch} />
       </Box>
       <Grid container rowSpacing={{ xs: 2, md: 4 }} columnSpacing={{ xs: 1, md: 2 }}>
         {filteredVenues.map((venue) => (
@@ -91,6 +78,7 @@ export const MUIHome = () => {
           </Grid>
         ))}
       </Grid>
+      <Pagination count={100} color="primary" page={currentPage} onChange={handlePageChange} />
     </>
   );
 };

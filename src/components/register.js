@@ -9,7 +9,7 @@ export const MUIRegister = () => {
 
   return (
     <>
-      <Typography variant="h1" component="h1">
+      <Typography variant="h4" component="h1">
         Register
       </Typography>
       <Box component="form" id="registerForm">

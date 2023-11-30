@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export function useApi(url) {
+export function useApi(url, offset, limit) {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -10,9 +10,10 @@ export function useApi(url) {
       try {
         setIsLoading(true);
         setIsError(false);
-        const response = await fetch(url);
-        const venue = await response.json();
-        setData(venue);
+        const response = await fetch(`${url}?offset=${offset}&limit=${limit}&_owner=true&sort=created`);
+        console.log(response);
+        const venues = await response.json();
+        setData(venues);
       } catch (error) {
         console.log(error);
         setIsError(true);
@@ -22,7 +23,8 @@ export function useApi(url) {
     }
 
     getData();
-  }, [url]);
+  }, [url, offset, limit]);
+
   return { data, isLoading, isError };
 }
 

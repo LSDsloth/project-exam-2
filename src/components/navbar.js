@@ -9,6 +9,8 @@ import { useState } from "react";
 
 export const MUINavbar = () => {
   const [anchorEl, setAnchorEl] = useState(false);
+  const open = Boolean(anchorEl);
+
   const isLoggedIn = useState(localStorage.getItem("isLoggedIn"));
   const profile = JSON.parse(localStorage.getItem("profile"));
   const avatarPicture = profile.avatar;
@@ -21,10 +23,11 @@ export const MUINavbar = () => {
     setAnchorEl(null);
   };
 
-  const handleClick = (e) => {
+  const handleLogOut = (e) => {
     e.preventDefault();
     localStorage.setItem("accessToken", "");
     localStorage.setItem("isLoggedIn", false);
+    window.location.reload();
     // const accessToken = localStorage.getItem("accessToken");
     // console.log(accessToken);
   };
@@ -36,7 +39,7 @@ export const MUINavbar = () => {
           <Toolbar disableGutters sx={{ display: "flex", justifyContent: "space-between" }}>
             <Box display="flex">
               <Link component={RouterLink} to="/" sx={{ display: "flex", gap: "5px", alignItems: "center", marginRight: "2rem", textDecoration: "none", color: "grey.200" }}>
-                <Typography variant="h6" noWrap sx={{ display: "inline-block" }}>
+                <Typography variant="h6" noWrap sx={{ display: "inline-block", color: "rgba(0, 0, 0, 0.87)" }}>
                   Holidaze
                 </Typography>
                 <WorkOutlineOutlinedIcon fontSize="small" color="primary" />
@@ -47,7 +50,7 @@ export const MUINavbar = () => {
                 <Button
                   disableRipple
                   sx={{
-                    color: "grey.200",
+                    color: "rgba(0, 0, 0, 0.87)",
                     "&:hover": {
                       background: "none",
                       textDecoration: "underline",
@@ -61,7 +64,7 @@ export const MUINavbar = () => {
                 <Button
                   disableRipple
                   sx={{
-                    color: "grey.200",
+                    color: "rgba(0, 0, 0, 0.87)",
                     "&:hover": {
                       background: "none",
                       textDecoration: "underline",
@@ -75,7 +78,7 @@ export const MUINavbar = () => {
                 <Button
                   disableRipple
                   sx={{
-                    color: "grey.200",
+                    color: "rgba(0, 0, 0, 0.87)",
                     "&:hover": {
                       background: "none",
                       textDecoration: "underline",
@@ -88,11 +91,18 @@ export const MUINavbar = () => {
             </Box>
             <Box display="flex" sx={{ alignItems: "center" }}>
               <Box>
-                <IconButton aria-label="profile" disableRipple onClick={handleMenu}>
+                <IconButton id="avatar-button" aria-label="profile" disableRipple aria-controls={open ? "basic-menu" : undefined} aria-expanded={open ? "true" : undefined} onClick={handleMenu}>
                   <Avatar sx={{ alignSelf: "center", aspectRatio: "1 / 1", width: "40px", height: "40px" }} alt="" src={avatarPicture} />
                 </IconButton>
                 {isLoggedIn && (
-                  <Menu id="menu-appbar" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
+                  <Menu
+                    id="menu-appbar"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                      "aria-labelledby": "avatar-button",
+                    }}>
                     <Link color="inherit" sx={{ textDecoration: "none" }} component={RouterLink} to="profile">
                       <MenuItem>Profile</MenuItem>
                     </Link>
@@ -101,7 +111,7 @@ export const MUINavbar = () => {
                     </Link>
                     <Divider />
                     <Box>
-                      <MenuItem onClick={handleClick}>Logout</MenuItem>
+                      <MenuItem onClick={handleLogOut}>Logout</MenuItem>
                     </Box>
                   </Menu>
                 )}

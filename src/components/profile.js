@@ -1,10 +1,13 @@
-import { Avatar, Box, Button, Divider, FormControl, FormControlLabel, IconButton, Input, InputAdornment, Modal, Paper, Stack, Switch, Tab, Tabs, Typography } from "@mui/material";
+import { Avatar, Box, Button, Divider, FormControl, FormControlLabel, Grid, IconButton, Input, InputAdornment, Link, Menu, MenuItem, Modal, Paper, Stack, Switch, Tab, Tabs, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
 import { SetVenueManager } from "./api/api";
 import { updateAvatarURL } from "./api/constants";
 import { updateAvatarFormEventListener } from "./handlers/updateAvatar";
 import { useGetVenues } from "./api/api";
 import EditIcon from "@mui/icons-material/Edit";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import PropTypes from "prop-types";
 
 export const MUIProfile = () => {
@@ -14,6 +17,9 @@ export const MUIProfile = () => {
   const [isHovered, setIsHovered] = useState(false);
   const avatarPicture = profile.avatar;
   const { data } = useGetVenues(updateAvatarURL);
+
+  const [anchorEl, setAnchorEl] = useState(false);
+  const open = Boolean(anchorEl);
 
   const [modalOpen, setModalOpen] = useState(false);
   const handleOpen = () => setModalOpen(true);
@@ -71,10 +77,18 @@ export const MUIProfile = () => {
     setValue(newValue);
   };
 
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <>
       <Stack>
-        <Box marginY={3} sx={{}}>
+        <Box id="profile-wrapper">
           <Box
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
@@ -96,7 +110,7 @@ export const MUIProfile = () => {
               </IconButton>
             )}
           </Box>
-          <Typography textAlign="center" variant="h5">
+          <Typography position="relative" textAlign="center" variant="h5">
             {profile.name}
           </Typography>
           <Modal open={modalOpen} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
@@ -124,15 +138,58 @@ export const MUIProfile = () => {
           Bookings
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          {profile.venueManager === true ? (
-            data.map((venue) => <Typography>{venue.name}</Typography>)
-          ) : (
-            <Box>
-              <FormControl>
-                <FormControlLabel control={<Switch checked={isVenueManager} onClick={handleChange} />} label="Be a venue manager" />
-              </FormControl>
-            </Box>
-          )}
+          <Grid container rowSpacing={{ xs: 2, md: 4 }} columnSpacing={{ xs: 1, md: 2 }}>
+            {profile.venueManager === true ? (
+              data.map((venue) => (
+                <Grid item key={venue.id} xs={12} sm={6} md={4} lg={3}>
+                  <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <Typography component="h5" key={venue.id}>
+                      {venue.name}
+                    </Typography>
+                    <IconButton size="small" id="edit-venue-button" aria-label="profile" disableRipple aria-controls={open ? "edit-venue-menu" : undefined} aria-expanded={open ? "true" : undefined} onClick={handleMenu}>
+                      <MoreVertIcon />
+                    </IconButton>
+                    <Menu id="edit-venue-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
+                      <Link color="inherit" sx={{ textDecoration: "none" }} component={RouterLink} to="#">
+                        <MenuItem>Edit venue</MenuItem>
+                      </Link>
+                      <Link color="error" sx={{ textDecoration: "none" }} component={RouterLink} to="#">
+                        <MenuItem>Delete venue</MenuItem>
+                      </Link>
+                      <Divider />
+                    </Menu>
+                  </Box>
+                  <Box>
+                    <Link component={RouterLink} to={`./venues?${venue.id}`}>
+                      <Box sx={{ aspectRatio: "16 / 9", overflow: "hidden", position: "relative" }}>
+                        <img
+                          className="venueImage"
+                          src={venue.media}
+                          alt={venue.name}
+                          onError={(e) => {
+                            e.target.src = "../../images/placeholder.webp";
+                          }}></img>
+                      </Box>
+                    </Link>
+                    <Tooltip title="Address: {}">
+                      <Box sx={{ width: "fit-content", color: "lightgrey", float: "right", display: "flex" }}>
+                        <LocationOnIcon sx={{ fontSize: "1rem", color: "lightgrey" }} />
+                        <Typography variant="caption">
+                          {venue.location.city !== "Unknown" && venue.location.city + ", "} {venue.location.country !== "Unknown" && venue.location.country}
+                        </Typography>
+                      </Box>
+                    </Tooltip>
+                  </Box>
+                </Grid>
+              ))
+            ) : (
+              <Box>
+                <FormControl>
+                  <FormControlLabel control={<Switch checked={isVenueManager} onClick={handleChange} />} label="Be a venue manager" />
+                </FormControl>
+              </Box>
+            )}
+          </Grid>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
           Item Three
