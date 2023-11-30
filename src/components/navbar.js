@@ -42,7 +42,7 @@ export const MUINavbar = () => {
                 <Typography variant="h6" noWrap sx={{ display: "inline-block", color: "rgba(0, 0, 0, 0.87)" }}>
                   Holidaze
                 </Typography>
-                <WorkOutlineOutlinedIcon fontSize="small" color="primary" />
+                <WorkOutlineOutlinedIcon fontSize="small" color="secondary" />
               </Link>
             </Box>
             <Box sx={{ display: "inline-block" }}>
