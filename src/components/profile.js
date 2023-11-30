@@ -104,7 +104,7 @@ export const MUIProfile = () => {
                   position: "absolute",
                   bottom: 0,
                   right: 0,
-                  backgroundColor: "black,", // Adjust the background color as needed
+                  color: "white",
                 }}>
                 <EditIcon />
               </IconButton>
@@ -120,7 +120,7 @@ export const MUIProfile = () => {
                   Update avatar
                 </Typography>
                 {/* <InputLabel htmlFor="url">New avatar</InputLabel> */}
-                <Input size="small" autoFocus id="avatar" type="url" name="avatar" aria-describedby="my-helper-text" startAdornment={<InputAdornment position="start">URL:</InputAdornment>} />
+                <Input sx={{ marginRight: "16px" }} size="small" autoFocus id="avatar" type="url" name="avatar" startAdornment={<InputAdornment position="start">URL:</InputAdornment>} />
                 <Button type="submit" color="primary">
                   Update
                 </Button>

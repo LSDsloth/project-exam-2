@@ -58,6 +58,7 @@ export const MUIHome = () => {
               <Link component={RouterLink} to={`./venues?${venue.id}`}>
                 <Box sx={{ aspectRatio: "16 / 9", overflow: "hidden", position: "relative" }}>
                   <img
+                    loading="lazy"
                     className="venueImage"
                     src={venue.media}
                     alt={venue.name}
