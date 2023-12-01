@@ -91,7 +91,7 @@ export const MUINavbar = () => {
             </Box>
             <Box display="flex" sx={{ alignItems: "center" }}>
               <Box>
-                <IconButton id="avatar-button" aria-label="profile" disableRipple aria-controls={open ? "basic-menu" : undefined} aria-expanded={open ? "true" : undefined} onClick={handleMenu}>
+                <IconButton id="avatar-button" aria-label="profile" disableRipple aria-controls={open ? "menu-appbar" : undefined} aria-expanded={open ? "true" : undefined} onClick={handleMenu}>
                   <Avatar sx={{ alignSelf: "center", aspectRatio: "1 / 1", width: "40px", height: "40px" }} alt="" src={avatarPicture} />
                 </IconButton>
                 {isLoggedIn && (

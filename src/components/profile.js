@@ -146,18 +146,20 @@ export const MUIProfile = () => {
                     <Typography component="h5" key={venue.id}>
                       {venue.name}
                     </Typography>
-                    <IconButton size="small" id="edit-venue-button" aria-label="profile" disableRipple aria-controls={open ? "edit-venue-menu" : undefined} aria-expanded={open ? "true" : undefined} onClick={handleMenu}>
-                      <MoreVertIcon />
-                    </IconButton>
-                    <Menu id="edit-venue-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
-                      <Link color="inherit" sx={{ textDecoration: "none" }} component={RouterLink} to="#">
-                        <MenuItem>Edit venue</MenuItem>
-                      </Link>
-                      <Link color="error" sx={{ textDecoration: "none" }} component={RouterLink} to="#">
-                        <MenuItem>Delete venue</MenuItem>
-                      </Link>
-                      <Divider />
-                    </Menu>
+                    <Box className="DIN-DRITT" position="relative">
+                      <IconButton size="small" id="edit-venue-button" aria-label="profile" disableRipple aria-controls={open ? "edit-venue-menu" : undefined} aria-expanded={open ? "true" : undefined} onClick={handleMenu}>
+                        <MoreVertIcon />
+                      </IconButton>
+                      <Menu id="edit-venue-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
+                        <Link color="inherit" sx={{ textDecoration: "none" }} component={RouterLink} to="#">
+                          <MenuItem>Edit venue</MenuItem>
+                        </Link>
+                        <Link color="error" sx={{ textDecoration: "none" }} component={RouterLink} to="#">
+                          <MenuItem>Delete venue</MenuItem>
+                        </Link>
+                        <Divider />
+                      </Menu>
+                    </Box>
                   </Box>
                   <Box>
                     <Link component={RouterLink} to={`./venues?${venue.id}`}>
