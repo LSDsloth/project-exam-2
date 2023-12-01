@@ -19,7 +19,7 @@ export const MUICreateVenue = () => {
               *
             </Typography>
           </label>
-          <TextField size="small" variant="outlined" id="name" name="name" aria-describedby="my-helper-text" />
+          <TextField minLength="5" size="small" variant="outlined" id="name" name="name" aria-describedby="my-helper-text" />
         </FormControl>
         <FormControl required>
           <label required htmlFor="description">
@@ -68,7 +68,7 @@ export const MUICreateVenue = () => {
           <label htmlFor="country">Country</label>
           <TextField size="small" id="country" type="text" name="country" aria-describedby="my-helper-text" min="1" max="100" />
         </FormControl>
-        <Button variant="outlined" type="submit">
+        <Button variant="contained" type="submit">
           Submit
         </Button>
       </Stack>
