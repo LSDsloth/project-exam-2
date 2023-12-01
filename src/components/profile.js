@@ -74,9 +74,9 @@ export const MUIProfile = () => {
   const handleAvatarOpen = () => setAvatarModalOpen(true);
   const handleAvatarClose = () => setAvatarModalOpen(false);
 
-  const [deleteVenueModalOpen, setDeleteVenueModalOpen] = useState(false);
-  const handleOpen = () => setDeleteVenueModalOpen(true);
-  const handleClose = () => setDeleteVenueModalOpen(false);
+  // const [deleteVenueModalOpen, setDeleteVenueModalOpen] = useState(false);
+  // const handleOpen = () => setDeleteVenueModalOpen(true);
+  // const handleClose = () => setDeleteVenueModalOpen(false);
 
   console.log(profile);
 
