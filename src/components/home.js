@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { venuesURL } from "./api/constants";
 import { useApi } from "./api/api";
 import { Box, Grid, Tooltip, Typography, Link, CircularProgress, TextField, Pagination } from "@mui/material";
@@ -9,9 +9,15 @@ export const MUIHome = () => {
   const [searchQuery, setSearchQuery] = useState(""); // State for the search query
   const [currentPage, setCurrentPage] = useState(1);
 
-  const offset = (currentPage - 1) * 20;
+  const itemsPerPage = 100;
+  const offset = (currentPage - 1) * itemsPerPage;
 
-  const { data, isLoading, isError } = useApi(`${venuesURL}`, offset, 20); // Fetch all venues initially
+  const { data, isLoading, isError, refetch } = useApi(venuesURL, offset, itemsPerPage);
+
+  useEffect(() => {
+    // When the currentPage changes, refetch the data for the new page
+    refetch();
+  }, [currentPage, refetch]);
 
   if (isLoading) {
     return (
@@ -79,7 +85,7 @@ export const MUIHome = () => {
           </Grid>
         ))}
       </Grid>
-      <Pagination count={100} color="primary" page={currentPage} onChange={handlePageChange} />
+      <Pagination count={5} color="primary" page={currentPage} onChange={handlePageChange} />
     </>
   );
 };

@@ -1,31 +1,37 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 export function useApi(url, offset, limit) {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  useEffect(() => {
-    async function getData() {
-      try {
-        setIsLoading(true);
-        setIsError(false);
-        const response = await fetch(`${url}?offset=${offset}&limit=${limit}&_owner=true&sort=created`);
-        console.log(response);
-        const venues = await response.json();
-        setData(venues);
-      } catch (error) {
-        console.log(error);
-        setIsError(true);
-      } finally {
-        setIsLoading(false);
-      }
+  const fetchData = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      setIsError(false);
+      const response = await fetch(`${url}?_owner=true&sort=created&offset=${offset}`);
+      console.log(response);
+      const venues = await response.json();
+      console.log(venues);
+      setData(venues);
+    } catch (error) {
+      console.log(error);
+      setIsError(true);
+    } finally {
+      setIsLoading(false);
     }
-
-    getData();
   }, [url, offset, limit]);
 
-  return { data, isLoading, isError };
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  // Define a refetch function
+  const refetch = useCallback(() => {
+    fetchData();
+  }, [fetchData]);
+
+  return { data, isLoading, isError, refetch };
 }
 
 export async function PostVenue(url, userData) {
@@ -77,6 +83,33 @@ export function useGetVenues(url) {
   }, [url]);
 
   return { data };
+}
+
+export function DeleteVenues(url, venueID) {
+  const fetchData = async () => {
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      const cleanedAccessToken = accessToken.replace(/^"|"$/g, "");
+      const postData = {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${cleanedAccessToken}`,
+        },
+      };
+      console.log(cleanedAccessToken);
+      const response = await fetch(`${url}/${venueID}`, postData);
+      console.log(response);
+      if (response.ok) {
+        console.log("Venue deleted!");
+        // window.location.reload();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  fetchData();
 }
 
 export async function SetVenueManager(url, isVenueManager) {

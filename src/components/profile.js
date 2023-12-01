@@ -1,14 +1,13 @@
-import { Avatar, Box, Button, Divider, FormControl, FormControlLabel, Grid, IconButton, Input, InputAdornment, Link, Menu, MenuItem, Modal, Paper, Stack, Switch, Tab, Tabs, Tooltip, Typography } from "@mui/material";
+import { Avatar, Box, Button, FormControl, FormControlLabel, Grid, IconButton, Input, InputAdornment, Link, Menu, MenuItem, Modal, Paper, Stack, Switch, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import { SetVenueManager } from "./api/api";
-import { updateAvatarURL } from "./api/constants";
+import { DeleteVenues, SetVenueManager } from "./api/api";
+import { updateAvatarURL, venuesURL } from "./api/constants";
 import { updateAvatarFormEventListener } from "./handlers/updateAvatar";
 import { useGetVenues } from "./api/api";
 import EditIcon from "@mui/icons-material/Edit";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import PropTypes from "prop-types";
 
 export const MUIProfile = () => {
   //   const isLoggedIn = localStorage.getItem("isLoggedIn");
@@ -18,8 +17,52 @@ export const MUIProfile = () => {
   const avatarPicture = profile.avatar;
   const { data } = useGetVenues(updateAvatarURL);
 
-  const [anchorEl, setAnchorEl] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
+  const [venueID, setVenueID] = useState("");
+
+  const handleMenuClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const deleteVenue = (venueId) => {
+    console.log(venueId);
+    DeleteVenues(venuesURL, venueId);
+  };
+
+  // const fullId = element.id;
+
+  // setVenueID(dynamicPart);
+  // console.log(dynamicPart);
+  // DeleteVenues(venuesURL, venueID);
+
+  console.log(venueID);
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  // const handleMenu = (event, venueId) => {
+  //   setAnchorEl((prevAnchorEl) => ({
+  //     ...prevAnchorEl,
+  //     [venueId]: event.currentTarget,
+  //   }));
+  //   seOpen((prevIsMenuOpen) => ({
+  //     ...prevIsMenuOpen,
+  //     [venueId]: true,
+  //   }));
+  // };
+
+  // const handleMenuClose = (venueId) => {
+  //   setAnchorEl((prevAnchorEl) => ({
+  //     ...prevAnchorEl,
+  //     [venueId]: null,
+  //   }));
+  //   seOpen((prevIsMenuOpen) => ({
+  //     ...prevIsMenuOpen,
+  //     [venueId]: false,
+  //   }));
+  // };
 
   const [modalOpen, setModalOpen] = useState(false);
   const handleOpen = () => setModalOpen(true);
@@ -44,46 +87,15 @@ export const MUIProfile = () => {
     updateAvatarFormEventListener();
   }
 
-  function CustomTabPanel(props) {
-    const { children, value, index, ...other } = props;
+  // const handleMenu = (event) => {
+  //   setAnchorEl(event.currentTarget);
+  // };
 
-    return (
-      <div role="tabpanel" hidden={value !== index} id={`simple-tabpanel-${index}`} aria-labelledby={`simple-tab-${index}`} {...other}>
-        {value === index && (
-          <Box sx={{ p: 3 }}>
-            <Typography>{children}</Typography>
-          </Box>
-        )}
-      </div>
-    );
-  }
+  // const handleMenuClose = () => {
+  //   setAnchorEl(null);
+  // };
 
-  CustomTabPanel.propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.number.isRequired,
-    value: PropTypes.number.isRequired,
-  };
-
-  function a11yProps(index) {
-    return {
-      id: `simple-tab-${index}`,
-      "aria-controls": `simple-tabpanel-${index}`,
-    };
-  }
-
-  const [value, setValue] = useState(0);
-
-  const handleChanges = (event, newValue) => {
-    setValue(newValue);
-  };
-
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
+  // To Test
 
   return (
     <>
@@ -128,74 +140,88 @@ export const MUIProfile = () => {
             </Paper>
           </Modal>
         </Box>
-        <Tabs value={value} onChange={handleChanges} aria-label="basic tabs example">
-          <Tab label="Bookings" {...a11yProps(0)} />
-          <Tab label="Your venues" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
-        </Tabs>
-        <Divider />
-        <CustomTabPanel value={value} index={0}>
-          Bookings
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={1}>
-          <Grid container rowSpacing={{ xs: 2, md: 4 }} columnSpacing={{ xs: 1, md: 2 }}>
-            {profile.venueManager === true ? (
-              data.map((venue) => (
-                <Grid item key={venue.id} xs={12} sm={6} md={4} lg={3}>
-                  <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <Typography component="h5" key={venue.id}>
-                      {venue.name}
-                    </Typography>
-                    <Box className="DIN-DRITT" position="relative">
-                      <IconButton size="small" id="edit-venue-button" aria-label="profile" disableRipple aria-controls={open ? "edit-venue-menu" : undefined} aria-expanded={open ? "true" : undefined} onClick={handleMenu}>
-                        <MoreVertIcon />
-                      </IconButton>
-                      <Menu id="edit-venue-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
-                        <Link color="inherit" sx={{ textDecoration: "none" }} component={RouterLink} to="#">
-                          <MenuItem>Edit venue</MenuItem>
-                        </Link>
-                        <Link color="error" sx={{ textDecoration: "none" }} component={RouterLink} to="#">
-                          <MenuItem>Delete venue</MenuItem>
-                        </Link>
-                        <Divider />
-                      </Menu>
+        {/* Here is starts */}
+        {/* <Box className="Just-to-test" sx={{ display: "flex", justifyContent: "space-around" }}>
+          <Box>
+            <IconButton id="test-button" aria-controls={open ? "test-menu" : undefined} aria-haspopup="true" aria-expanded={open ? "true" : undefined} onClick={handleMenuClick}>
+              <MoreVertIcon />
+            </IconButton>
+            <Menu id="test-menu" anchorEl={anchorEl} open={open}>
+              <MenuItem>
+                <Typography component="h1" variant="h1">
+                  Item nr1
+                </Typography>
+              </MenuItem>
+            </Menu>
+          </Box>
+          <Box>
+            <IconButton id="test-button" aria-controls={open ? "test-menu" : undefined} aria-haspopup="true" aria-expanded={open ? "true" : undefined} onClick={handleMenuClick}>
+              <MoreVertIcon />
+            </IconButton>
+            <Menu id="test-menu" anchorEl={anchorEl} open={open}>
+              <MenuItem>
+                <Typography component="h1" variant="h1">
+                  Item nr1
+                </Typography>
+              </MenuItem>
+            </Menu>
+          </Box>
+        </Box> */}
+        {/* Here it ends */}
+
+        <Grid className="CONTAINER" container rowSpacing={{ xs: 2, md: 4 }} columnSpacing={{ xs: 1, md: 2 }}>
+          {profile.venueManager === true ? (
+            data.map((venue) => (
+              <Grid id={`my-venue-${venue.id}`} item key={venue.id} xs={12} sm={6} md={4} lg={3}>
+                <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <Typography component="h5" key={venue.id}>
+                    {venue.name}
+                  </Typography>
+                  <Box className="DIN-DRITT" position="relative">
+                    <IconButton size="small" id={`edit-venue-button-${venue.id}`} aria-controls={open ? `edit-venue-menu-${venue.id}` : undefined} aria-haspopup="true" aria-expanded={open ? "true" : undefined} onClick={handleMenuClick}>
+                      <MoreVertIcon />
+                    </IconButton>
+                    <Menu id={`edit-venue-menu-${venue.id}`} anchorEl={anchorEl} open={open} onClose={handleMenuClose}>
+                      <Link color="inherit" sx={{ textDecoration: "none" }} component={RouterLink} to="#">
+                        <MenuItem onClick={handleMenuClose}>Edit venue</MenuItem>
+                      </Link>
+                      <Box onClick={() => deleteVenue(venue.id)} id={`id-of-venue-${venue.id}`} sx={{ color: "error.main" }}>
+                        <MenuItem onClick={() => handleMenuClose(venue.id)}>Delete venue</MenuItem>
+                      </Box>
+                    </Menu>
+                  </Box>
+                </Box>
+                <Box>
+                  <Link component={RouterLink} to={`./venues?${venue.id}`}>
+                    <Box sx={{ aspectRatio: "16 / 9", overflow: "hidden", position: "relative" }}>
+                      <img
+                        className="venueImage"
+                        src={venue.media}
+                        alt={venue.name}
+                        onError={(e) => {
+                          e.target.src = "../../images/placeholder.webp";
+                        }}></img>
                     </Box>
-                  </Box>
-                  <Box>
-                    <Link component={RouterLink} to={`./venues?${venue.id}`}>
-                      <Box sx={{ aspectRatio: "16 / 9", overflow: "hidden", position: "relative" }}>
-                        <img
-                          className="venueImage"
-                          src={venue.media}
-                          alt={venue.name}
-                          onError={(e) => {
-                            e.target.src = "../../images/placeholder.webp";
-                          }}></img>
-                      </Box>
-                    </Link>
-                    <Tooltip title="Address: {}">
-                      <Box sx={{ width: "fit-content", color: "lightgrey", float: "right", display: "flex" }}>
-                        <LocationOnIcon sx={{ fontSize: "1rem", color: "lightgrey" }} />
-                        <Typography variant="caption">
-                          {venue.location.city !== "Unknown" && venue.location.city + ", "} {venue.location.country !== "Unknown" && venue.location.country}
-                        </Typography>
-                      </Box>
-                    </Tooltip>
-                  </Box>
-                </Grid>
-              ))
-            ) : (
-              <Box>
-                <FormControl>
-                  <FormControlLabel control={<Switch checked={isVenueManager} onClick={handleChange} />} label="Be a venue manager" />
-                </FormControl>
-              </Box>
-            )}
-          </Grid>
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={2}>
-          Item Three
-        </CustomTabPanel>
+                  </Link>
+                  <Tooltip title="Address: {}">
+                    <Box sx={{ width: "fit-content", color: "lightgrey", float: "right", display: "flex" }}>
+                      <LocationOnIcon sx={{ fontSize: "1rem", color: "lightgrey" }} />
+                      <Typography variant="caption">
+                        {venue.location.city !== "Unknown" && venue.location.city + ", "} {venue.location.country !== "Unknown" && venue.location.country}
+                      </Typography>
+                    </Box>
+                  </Tooltip>
+                </Box>
+              </Grid>
+            ))
+          ) : (
+            <Box>
+              <FormControl>
+                <FormControlLabel control={<Switch checked={isVenueManager} onClick={handleChange} />} label="Be a venue manager" />
+              </FormControl>
+            </Box>
+          )}
+        </Grid>
       </Stack>
     </>
   );
