@@ -3,10 +3,10 @@ import IconButton from "@mui/material/IconButton";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import { Avatar, Box, Button, Container, Divider, Link, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
+import { DateCalendar, LocalizationProvider } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
 import { Link as RouterLink } from "react-router-dom";
 import { useState } from "react";
 
@@ -30,6 +30,14 @@ export const MUINavbar = () => {
       ...prevAnchorEl,
       [venueId]: null,
     }));
+  };
+
+  const customColoredDates = [dayjs("2023-12-05"), dayjs("2023-12-12"), dayjs("2023-12-19")];
+
+  const renderCustomColoredDate = (date, dateAdapter) => {
+    const isCustomColored = customColoredDates.some((d) => dateAdapter.isSameDay(date, d));
+
+    return <div style={{ color: isCustomColored ? "red" : "inherit" }}>{dateAdapter.format(date, "D")}</div>;
   };
 
   const handleLogOut = (e) => {
@@ -111,9 +119,9 @@ export const MUINavbar = () => {
                   MenuListProps={{
                     "aria-labelledby": "calendar-button",
                   }}>
-                  <MenuItem>
+                  <MenuItem disableRipple>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DateCalendar />
+                      <DateCalendar renderDay={(date, _, DayProps) => <Box {...DayProps}>{renderCustomColoredDate(date, AdapterDayjs)}</Box>} />
                     </LocalizationProvider>
                   </MenuItem>
                 </Menu>
