@@ -192,7 +192,7 @@ export const MUIProfile = () => {
               </Box>
             ) : (
               data.map((venue) => (
-                <Grid id={`my-venue-${venue.id}`} item key={venue.id} xs={12} sm={6} md={4} lg={3}>
+                <Grid className="hide-tab" id={`my-venue-${venue.id}`} item key={venue.id} xs={12} sm={6} md={4} lg={3}>
                   <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                     <Typography component="h5">{venue.name}</Typography>
                     <Box className="DIN-DRITT" position="relative">
