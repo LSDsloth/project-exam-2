@@ -1,26 +1,35 @@
 import AppBar from "@mui/material/AppBar";
 import IconButton from "@mui/material/IconButton";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-// import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import { Avatar, Box, Button, Container, Divider, Link, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import { useState } from "react";
 
 export const MUINavbar = () => {
-  const [anchorEl, setAnchorEl] = useState(false);
-  const open = Boolean(anchorEl);
-
   const isLoggedIn = useState(localStorage.getItem("isLoggedIn"));
   const profile = JSON.parse(localStorage.getItem("profile"));
   const avatarPicture = profile.avatar;
 
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
+  const [anchorEl, setAnchorEl] = useState({});
+  const open = Boolean(anchorEl);
+
+  const handleMenuClick = (venueId, event) => {
+    setAnchorEl((prevAnchorEl) => ({
+      ...prevAnchorEl,
+      [venueId]: event.currentTarget,
+    }));
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleMenuClose = (venueId) => {
+    setAnchorEl((prevAnchorEl) => ({
+      ...prevAnchorEl,
+      [venueId]: null,
+    }));
   };
 
   const handleLogOut = (e) => {
@@ -91,15 +100,34 @@ export const MUINavbar = () => {
             </Box>
             <Box display="flex" sx={{ alignItems: "center" }}>
               <Box>
-                <IconButton id="avatar-button" aria-label="profile" disableRipple aria-controls={open ? "menu-appbar" : undefined} aria-expanded={open ? "true" : undefined} onClick={handleMenu}>
+                <IconButton id="calendar-button" aria-label="calendar" aria-controls={open ? "calendar-menu-appbar" : undefined} aria-haspopup="true" onClick={(event) => handleMenuClick("calendar-menu-appbar", event)}>
+                  <CalendarMonthIcon />
+                </IconButton>
+                <Menu
+                  id="calendar-menu-appbar"
+                  anchorEl={anchorEl["calendar-menu-appbar"]}
+                  open={anchorEl["calendar-menu-appbar"]}
+                  onClose={() => handleMenuClose("calendar-menu-appbar")}
+                  MenuListProps={{
+                    "aria-labelledby": "calendar-button",
+                  }}>
+                  <MenuItem>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DateCalendar />
+                    </LocalizationProvider>
+                  </MenuItem>
+                </Menu>
+              </Box>
+              <Box>
+                <IconButton id="avatar-button" aria-label="profile" disableRipple aria-controls={open ? "avatar-menu-appbar" : undefined} aria-haspopup="true" onClick={(event) => handleMenuClick("avatar-menu-appbar", event)}>
                   <Avatar sx={{ alignSelf: "center", aspectRatio: "1 / 1", width: "40px", height: "40px" }} alt="" src={avatarPicture} />
                 </IconButton>
                 {isLoggedIn && (
                   <Menu
-                    id="menu-appbar"
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={handleClose}
+                    id="avatar-menu-appbar"
+                    anchorEl={anchorEl["avatar-menu-appbar"]}
+                    open={anchorEl["avatar-menu-appbar"]}
+                    onClose={() => handleMenuClose("avatar-menu-appbar")}
                     MenuListProps={{
                       "aria-labelledby": "avatar-button",
                     }}>

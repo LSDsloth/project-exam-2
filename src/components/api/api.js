@@ -55,8 +55,9 @@ export async function PostVenue(url, userData) {
   }
 }
 
-export function useGetVenues(url) {
-  const [data, setData] = useState([]);
+export function useGetProfile(url, entry) {
+  const [venueData, setVenueData] = useState([]);
+  const [bookingData, setBookingData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -74,19 +75,31 @@ export function useGetVenues(url) {
           },
         };
 
-        const response = await fetch(`${url}/${name}/venues`, postData);
-        const venueData = await response.json();
-        setData(venueData);
+        const venueResponse = await fetch(`${url}/${name}/venues`, postData);
+        const venueData = await venueResponse.json();
+        setVenueData(venueData);
+
+        const bookingResponse = await fetch(
+          `${url}/${name}/bookings?_venue=true&sort=dateFrom
+        `,
+          postData
+        );
+        const bookingData = await bookingResponse.json();
+        setBookingData(bookingData);
+
+        console.log(venueResponse);
         console.log(venueData);
+        console.log(bookingResponse);
+        console.log(bookingData);
       } catch (error) {
         console.error(error);
       }
     };
 
     fetchData();
-  }, [url]);
+  }, [url, entry]);
 
-  return { data };
+  return { venueData, bookingData };
 }
 
 export function DeleteVenues(url, venueID) {
