@@ -10,17 +10,13 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
 export const MUIProfile = () => {
-  //   const isLoggedIn = localStorage.getItem("isLoggedIn");
   const profile = JSON.parse(localStorage.getItem("profile"));
   const [isVenueManager, setIsVenueManager] = useState(profile.venueManager || false);
   const [isHovered, setIsHovered] = useState(false);
   const avatarPicture = profile.avatar;
   const { venueData } = useGetProfile(updateAvatarURL, "venues");
-  console.log(venueData);
 
   const { bookingData } = useGetProfile(updateAvatarURL, "bookings");
-
-  // const [venueID, setVenueID] = useState("");
 
   const [anchorEl, setAnchorEl] = useState({});
   const open = Boolean(anchorEl);
@@ -40,52 +36,13 @@ export const MUIProfile = () => {
   };
 
   const deleteVenue = (venueId) => {
-    handleMenuClose(venueId); // Close the menu after deleting
+    handleMenuClose(venueId);
     DeleteVenues(venuesURL, venueId);
   };
-
-  // const deleteBooking = (bookingId) => {
-  //   handleMenuClose(bookingId);
-  //   DeleteVenues(bookingURL, bookingId);
-  // };
-
-  // const fullId = element.id;
-
-  // setVenueID(dynamicPart);
-  // console.log(dynamicPart);
-  // DeleteVenues(venuesURL, venueID);
-
-  // const handleMenu = (event, venueId) => {
-  //   setAnchorEl((prevAnchorEl) => ({
-  //     ...prevAnchorEl,
-  //     [venueId]: event.currentTarget,
-  //   }));
-  //   seOpen((prevIsMenuOpen) => ({
-  //     ...prevIsMenuOpen,
-  //     [venueId]: true,
-  //   }));
-  // };
-
-  // const handleMenuClose = (venueId) => {
-  //   setAnchorEl((prevAnchorEl) => ({
-  //     ...prevAnchorEl,
-  //     [venueId]: null,
-  //   }));
-  //   seOpen((prevIsMenuOpen) => ({
-  //     ...prevIsMenuOpen,
-  //     [venueId]: false,
-  //   }));
-  // };
 
   const [avatarModalOpen, setAvatarModalOpen] = useState(false);
   const handleAvatarOpen = () => setAvatarModalOpen(true);
   const handleAvatarClose = () => setAvatarModalOpen(false);
-
-  // const [deleteVenueModalOpen, setDeleteVenueModalOpen] = useState(false);
-  // const handleOpen = () => setDeleteVenueModalOpen(true);
-  // const handleClose = () => setDeleteVenueModalOpen(false);
-
-  console.log(`Venue manager is ${profile.venueManager} before I click the switch`);
 
   function handleChange(e) {
     const isChecked = e.target.checked;
@@ -94,23 +51,11 @@ export const MUIProfile = () => {
     const updatedProfile = JSON.stringify(profile);
     localStorage.setItem("profile", updatedProfile);
     SetVenueManager(updateAvatarURL, profile.venueManager);
-    console.log(`Venue manager is updated to ${profile.venueManager}`);
-    console.log(profile);
   }
 
   function handleThis() {
     updateAvatarFormEventListener();
   }
-
-  // const handleMenu = (event) => {
-  //   setAnchorEl(event.currentTarget);
-  // };
-
-  // const handleMenuClose = () => {
-  //   setAnchorEl(null);
-  // };
-
-  // To Test
 
   return (
     <>
@@ -123,7 +68,6 @@ export const MUIProfile = () => {
               onClick={handleAvatarOpen}
               sx={{ margin: "10px auto", lineHeight: "100px", position: "relative", display: "flex", justifyContent: "center", width: "fit-content" }}>
               <Avatar sx={{ alignSelf: "center", aspectRatio: "1 / 1", width: "100px", height: "100px" }} alt="" src={avatarPicture} />
-              {/* Conditionally render EditIcon when hovered */}
               {isHovered && (
                 <IconButton
                   sx={{
@@ -149,7 +93,6 @@ export const MUIProfile = () => {
                 <Typography variant="h6" paddingBottom={2} sx={{ textAlign: "center" }}>
                   Update avatar
                 </Typography>
-                {/* <InputLabel htmlFor="url">New avatar</InputLabel> */}
                 <Input sx={{ marginRight: "16px" }} size="small" autoFocus id="avatar" type="url" name="avatar" startAdornment={<InputAdornment position="start">URL:</InputAdornment>} />
                 <Button type="submit" color="primary">
                   Update

@@ -7,8 +7,6 @@ export function updateVenueFormEventListener(setHasFormError, venueId, formEleme
   updateVenueForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    console.log("Inside updateVenueFormEventListener. VenueId:", venueId);
-
     const formData = new FormData(updateVenueForm);
     const name = formData.get("name");
     const maxGuests = formData.get("maxGuests");
@@ -28,12 +26,9 @@ export function updateVenueFormEventListener(setHasFormError, venueId, formEleme
     const descriptionError = description.trim() === "";
     const priceError = price.trim() <= 0 || price.trim() === "";
 
-    console.log("VenueId inside updateVenueFormEventListener: ", venueId);
-
     // Display error messages or perform other actions based on errors
     if (nameError || maxGuestsError || descriptionError || priceError) {
       setHasFormError(true);
-      console.log("Form has errors. Submission halted.");
     } else {
       setHasFormError(false);
 
@@ -47,7 +42,6 @@ export function updateVenueFormEventListener(setHasFormError, venueId, formEleme
           location,
         };
 
-        console.log(userData);
         await UpdateVenue(venuesURL, venueId, userData);
       } else {
         console.log("VenueId is null. Cannot make the API request.");

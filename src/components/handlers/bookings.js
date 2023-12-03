@@ -18,7 +18,6 @@ export function postBookingFormEventListener(selectedDate, selectedToDate, venue
         venueId: venueId,
       };
 
-      console.log(userData);
       await PostBooking(bookingURL, userData);
     });
   } catch (error) {}

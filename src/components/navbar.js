@@ -7,7 +7,6 @@ import { useState } from "react";
 
 export const MUINavbar = () => {
   const isLoggedIn = localStorage.getItem("isLoggedIn");
-  console.log("Is logged in is set to: " + isLoggedIn);
   const storedProfile = localStorage.getItem("profile");
   let avatarPicture = null;
 
@@ -41,8 +40,6 @@ export const MUINavbar = () => {
     localStorage.setItem("isLoggedIn", false);
     localStorage.setItem("profile", "");
     window.location.href = "/";
-    // const accessToken = localStorage.getItem("accessToken");
-    // console.log(accessToken);
   };
 
   return (
@@ -59,21 +56,6 @@ export const MUINavbar = () => {
               </Link>
             </Box>
             <Box display="flex" sx={{ alignItems: "center" }}>
-              {/* <Box>
-                <IconButton id="calendar-button" aria-label="calendar" aria-controls={open ? "calendar-menu-appbar" : undefined} aria-haspopup="true" onClick={(event) => handleMenuClick("calendar-menu-appbar", event)}>
-                  <CalendarMonthIcon />
-                </IconButton>
-                <Menu
-                  id="calendar-menu-appbar"
-                  anchorEl={anchorEl["calendar-menu-appbar"]}
-                  open={anchorEl["calendar-menu-appbar"]}
-                  onClose={() => handleMenuClose("calendar-menu-appbar")}
-                  MenuListProps={{
-                    "aria-labelledby": "calendar-button",
-                  }}>
-                  <MenuItem disableRipple></MenuItem>
-                </Menu>
-              </Box> */}
               <Box>
                 <IconButton id="avatar-button" aria-label="profile" disableRipple aria-controls={open ? "avatar-menu-appbar" : undefined} aria-haspopup="true" onClick={(event) => handleMenuClick("avatar-menu-appbar", event)}>
                   <Avatar sx={{ alignSelf: "center", aspectRatio: "1 / 1", width: "40px", height: "40px" }} alt="" src={avatarPicture} />

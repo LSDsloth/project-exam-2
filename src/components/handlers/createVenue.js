@@ -41,7 +41,6 @@ export function postVenueFormEventListener(setHasFormError, venueId) {
         location,
       };
 
-      console.log(userData);
       await PostVenue(venuesURL, userData);
     }
   });

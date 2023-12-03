@@ -13,9 +13,8 @@ export const MUIBooking = () => {
   const venueId = urlParams.get("venueId");
 
   const { data, isLoading, isError } = useApi(`${venuesURL}/${venueId}`);
-  // console.log(data);
-  const isoDateTime = new Date().toISOString();
 
+  const isoDateTime = new Date().toISOString();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const handleDateChange = (date) => {
     setSelectedDate(date);

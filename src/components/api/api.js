@@ -10,9 +10,7 @@ export function useApi(url, offset, limit) {
       setIsLoading(true);
       setIsError(false);
       const response = await fetch(`${url}?_owner=true&_bookings=true&sort=created&offset=${offset}&limit=${limit}`);
-      // console.log(response);
       const venues = await response.json();
-      // console.log(venues);
       setData(venues);
     } catch (error) {
       console.log(error);
@@ -34,7 +32,6 @@ export function useApi(url, offset, limit) {
 }
 
 export async function PostBooking(url, userData) {
-  console.log("HAHAHAHAHA");
   const accessToken = localStorage.getItem("accessToken");
   const cleaneddAccesstoken = accessToken.replace(/^"|"$/g, "");
   try {
@@ -46,13 +43,10 @@ export async function PostBooking(url, userData) {
       },
       body: JSON.stringify(userData),
     };
-    console.log(postData);
     const response = await fetch(url, postData);
-    console.log(response);
     const data = await response.json();
     console.log(data);
     if (response.ok) {
-      console.log("Went through");
     }
   } catch (error) {
     console.log(error);
@@ -70,14 +64,10 @@ export async function PostVenue(url, userData) {
     },
     body: JSON.stringify(userData),
   };
-  console.log(postData);
   const response = await fetch(url, postData);
-  console.log(response);
   const data = await response.json();
-  console.log(data);
 
   if (response.ok) {
-    console.log("Went through");
     alert("You have created a new post!");
     window.location.href = "/";
   }
@@ -95,41 +85,16 @@ export async function UpdateVenue(url, venueId, userData) {
     body: JSON.stringify(userData),
   };
 
-  console.log(userData);
-
   try {
     const response = await fetch(`${url}/${venueId}`, postData);
-    console.log(response);
 
     const data = await response.json();
-    console.log("Data:", data);
+    console.log(data);
   } catch (error) {
     console.error("Error:", error);
     return null;
   }
 }
-
-// export async function GetSingelVenue(url) {
-//   const [data, setData] = useState([]);
-
-//   try {
-//     const postData = {
-//       method: "GET",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     };
-
-//     const response = await fetch(url, postData);
-//     console.log(response);
-//     const venue = await response.json();
-//     console.log(venue);
-//     setData(venue);
-//   } catch (error) {
-//     console.log(error);
-//   }
-//   return data;
-// }
 
 export function useGetProfile(url, entry) {
   const [venueData, setVenueData] = useState([]);
@@ -162,11 +127,6 @@ export function useGetProfile(url, entry) {
         );
         const bookingData = await bookingResponse.json();
         setBookingData(bookingData);
-
-        console.log(venueResponse);
-        console.log(venueData);
-        console.log(bookingResponse);
-        console.log(bookingData);
       } catch (error) {
         console.error(error);
       }
@@ -190,9 +150,7 @@ export function DeleteVenues(url, venueID) {
           Authorization: `Bearer ${cleanedAccessToken}`,
         },
       };
-      console.log(cleanedAccessToken);
       const response = await fetch(`${url}/${venueID}`, postData);
-      console.log(response);
       if (response.ok) {
         console.log("Venue deleted!");
         window.location.reload();
@@ -218,9 +176,7 @@ export async function SetVenueManager(url, isVenueManager) {
     },
     body: JSON.stringify({ venueManager: isVenueManager }),
   };
-  console.log(postData);
   const response = await fetch(`${url}/${name}`, postData);
-  console.log(response);
   const data = await response.json();
   console.log(data);
 }
@@ -241,11 +197,8 @@ export async function UpdateAvatar(url, avatarURL) {
       },
       body: JSON.stringify({ avatar: avatarUrlValue }),
     };
-    console.log(postData);
     const response = await fetch(`${url}/${name}/media`, postData);
-    console.log(response);
     const data = await response.json();
-    console.log(data);
 
     if (response.ok) {
       profile.avatar = data?.avatar;

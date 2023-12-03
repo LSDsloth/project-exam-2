@@ -8,7 +8,6 @@ export function loginFormEventListener() {
     e.preventDefault();
     const formData = new FormData(loginForm);
     const userData = Object.fromEntries(formData.entries());
-    console.log(userData);
     await loginUser(loginURL, userData);
   });
 }

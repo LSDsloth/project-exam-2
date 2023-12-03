@@ -11,12 +11,8 @@ export const MUIUpdateVenue = () => {
   const [price, setPrice] = useState("1");
   const [hasFormError, setHasFormError] = useState(false);
   const venueId = window.location.search.slice(1);
-  //   console.log(venueId);
-  //   const venueId = urlParams.get("venueId");
-  //   console.log(urlParams);
 
   const { data, isLoading, isError } = useApi(`${venuesURL}/${venueId}`);
-  //   console.log(venueId);
 
   function handleNameChange(e) {
     setName(e.target.value);

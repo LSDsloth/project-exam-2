@@ -8,7 +8,6 @@ export function updateAvatarFormEventListener() {
     e.preventDefault();
     const formData = new FormData(updateAvatarForm);
     const userData = Object.fromEntries(formData.entries());
-    console.log(userData);
     await UpdateAvatar(updateAvatarURL, userData);
   });
 }

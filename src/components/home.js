@@ -42,12 +42,6 @@ export const MUIHome = () => {
     return venue.name.toLowerCase().includes(searchQuery.toLowerCase());
   });
 
-  // Calculate offset based on current page
-  const startIndex = offset;
-  const endIndex = offset + 20;
-  const venuesToDisplay = filteredVenues.slice(startIndex, endIndex);
-  console.log(venuesToDisplay);
-
   return (
     <Stack spacing={1}>
       <Box className="searchBar-wrapper">
@@ -102,7 +96,7 @@ export const MUIHome = () => {
           </Grid>
         ))}
       </Grid>
-      <Pagination count={5} color="primary" page={currentPage} onChange={handlePageChange} />
+      <Pagination count={4} color="primary" page={currentPage} onChange={handlePageChange} />
     </Stack>
   );
 };

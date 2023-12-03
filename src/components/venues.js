@@ -10,9 +10,7 @@ export function MUIVenue() {
   const unusableQueryString = document.location.search;
   const queryString = unusableQueryString.slice(1);
   const { data, isLoading, isError } = useApi(`${venuesURL}/${queryString}`);
-  console.log(data);
   const isLoggedIn = JSON.parse(localStorage.getItem("isLoggedIn"));
-  console.log(isLoggedIn);
 
   if (isLoading) {
     return (
