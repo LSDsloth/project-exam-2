@@ -66,6 +66,7 @@ export async function PostVenue(url, userData) {
   };
   const response = await fetch(url, postData);
   const data = await response.json();
+  console.log(data);
 
   if (response.ok) {
     alert("You have created a new post!");
