@@ -1,4 +1,4 @@
-import { Box, Button, CircularProgress, FormControl, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, FormControl, FormHelperText, Stack, TextField, Typography } from "@mui/material";
 import { useApi } from "./api/api";
 import { venuesURL } from "./api/constants";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
@@ -87,6 +87,7 @@ export const MUIBooking = () => {
             </Typography>
           </label>
           <TextField size="small" defaultValue={1} type="number" id="guests" name="guests" />
+          <FormHelperText>This venue allows up to {data.maxGuests} guests</FormHelperText>
         </FormControl>
         {/* <FormControl required>
           <label htmlFor="venueId">

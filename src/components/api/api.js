@@ -9,7 +9,7 @@ export function useApi(url, offset, limit) {
     try {
       setIsLoading(true);
       setIsError(false);
-      const response = await fetch(`${url}?_owner=true&sort=created&offset=${offset}&limit=${limit}`);
+      const response = await fetch(`${url}?_owner=true&_bookings=true&sort=created&offset=${offset}&limit=${limit}`);
       // console.log(response);
       const venues = await response.json();
       // console.log(venues);

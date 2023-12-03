@@ -7,6 +7,7 @@ import { updateAvatarFormEventListener } from "./handlers/updateAvatar";
 import EditIcon from "@mui/icons-material/Edit";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
 export const MUIProfile = () => {
   //   const isLoggedIn = localStorage.getItem("isLoggedIn");
@@ -181,7 +182,7 @@ export const MUIProfile = () => {
                       const formattedDate = new Date(venue.dateFrom).toLocaleString();
                       return (
                         <Grid id={`my-venue-${venue.id}`} item key={venue.id} xs={12} sm={6} md={4} lg={3}>
-                          <Box className="venues-widget" sx={{ backgroundColor: " #f8f8f8", padding: "15px", borderRadius: "8px" }}>
+                          <Stack className="venues-widget" sx={{ backgroundColor: " #f8f8f8", padding: "15px", borderRadius: "8px" }}>
                             <Link component={RouterLink} to={`.././venues?${venue.id}`}>
                               <Box sx={{ aspectRatio: "16 / 9", overflow: "hidden", position: "relative" }}>
                                 <img src={venue.media} alt="event" />
@@ -235,13 +236,8 @@ export const MUIProfile = () => {
                                   </Typography>
                                 </Box>
                               </Tooltip>
-                              <Link sx={{ display: "block", textAlign: "center", marginTop: "2rem" }} component={RouterLink}>
-                                <Button size="small" variant="contained">
-                                  Learn More
-                                </Button>
-                              </Link>
                             </Box>
-                          </Box>
+                          </Stack>
                         </Grid>
                       );
                     })}
@@ -269,13 +265,16 @@ export const MUIProfile = () => {
                   const formattedDate = new Date(booking.dateFrom).toLocaleString();
                   return (
                     <Grid id={`my-booking-${booking.id}`} item key={booking.id} xs={12} sm={6} md={4} lg={3}>
-                      <Box className="upcoming-events-widget" sx={{ backgroundColor: " #f8f8f8", padding: "15px", borderRadius: "8px" }}>
+                      <Stack className="upcoming-events-widget" sx={{ backgroundColor: " #f8f8f8", padding: "15px", borderRadius: "8px" }}>
                         <Box>
                           <Box sx={{ aspectRatio: "16 / 9", overflow: "hidden", position: "relative" }}>
                             <img src={booking.venue.media} alt="event" />
                           </Box>
                           <Box>
-                            <Typography variant="caption">{formattedDate}</Typography>
+                            <Box sx={{ display: "flex", alignItems: "center", gap: "3px" }}>
+                              <AccessTimeIcon sx={{ fontSize: "16px" }} />
+                              <Typography variant="caption">{formattedDate}</Typography>
+                            </Box>
                             <Typography component="h3" variant="h6" className="event-name">
                               {booking.venue.name}
                             </Typography>
@@ -305,14 +304,9 @@ export const MUIProfile = () => {
                                 </Typography>
                               </Box>
                             </Tooltip>
-                            <Link sx={{ display: "block", textAlign: "center", marginTop: "2rem" }} component={RouterLink}>
-                              <Button size="small" variant="contained">
-                                Learn More
-                              </Button>
-                            </Link>
                           </Box>
                         </Box>
-                      </Box>
+                      </Stack>
                     </Grid>
                   );
                 })
