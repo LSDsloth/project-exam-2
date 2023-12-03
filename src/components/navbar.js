@@ -57,50 +57,6 @@ export const MUINavbar = () => {
                 <WorkOutlineOutlinedIcon fontSize="small" color="secondary" />
               </Link>
             </Box>
-            <Box sx={{ display: "inline-block" }}>
-              <Link component={RouterLink} to="/">
-                <Button
-                  disableRipple
-                  sx={{
-                    color: "rgba(0, 0, 0, 0.87)",
-                    "&:hover": {
-                      background: "none",
-                      textDecoration: "underline",
-                    },
-                  }}
-                  variant="text">
-                  Home
-                </Button>
-              </Link>
-              <Link component={RouterLink} to="/login">
-                <Button
-                  disableRipple
-                  sx={{
-                    color: "rgba(0, 0, 0, 0.87)",
-                    "&:hover": {
-                      background: "none",
-                      textDecoration: "underline",
-                    },
-                  }}
-                  variant="text">
-                  Login
-                </Button>
-              </Link>
-              <Link component={RouterLink} to="/register">
-                <Button
-                  disableRipple
-                  sx={{
-                    color: "rgba(0, 0, 0, 0.87)",
-                    "&:hover": {
-                      background: "none",
-                      textDecoration: "underline",
-                    },
-                  }}
-                  variant="text">
-                  register
-                </Button>
-              </Link>
-            </Box>
             <Box display="flex" sx={{ alignItems: "center" }}>
               {/* <Box>
                 <IconButton id="calendar-button" aria-label="calendar" aria-controls={open ? "calendar-menu-appbar" : undefined} aria-haspopup="true" onClick={(event) => handleMenuClick("calendar-menu-appbar", event)}>
@@ -121,7 +77,7 @@ export const MUINavbar = () => {
                 <IconButton id="avatar-button" aria-label="profile" disableRipple aria-controls={open ? "avatar-menu-appbar" : undefined} aria-haspopup="true" onClick={(event) => handleMenuClick("avatar-menu-appbar", event)}>
                   <Avatar sx={{ alignSelf: "center", aspectRatio: "1 / 1", width: "40px", height: "40px" }} alt="" src={avatarPicture} />
                 </IconButton>
-                {isLoggedIn && (
+                {isLoggedIn === true ? (
                   <Menu
                     id="avatar-menu-appbar"
                     anchorEl={anchorEl["avatar-menu-appbar"]}
@@ -140,6 +96,22 @@ export const MUINavbar = () => {
                     <Box>
                       <MenuItem onClick={handleLogOut}>Logout</MenuItem>
                     </Box>
+                  </Menu>
+                ) : (
+                  <Menu
+                    id="avatar-menu-appbar"
+                    anchorEl={anchorEl["avatar-menu-appbar"]}
+                    open={anchorEl["avatar-menu-appbar"]}
+                    onClose={() => handleMenuClose("avatar-menu-appbar")}
+                    MenuListProps={{
+                      "aria-labelledby": "avatar-button",
+                    }}>
+                    <Link color="inherit" sx={{ textDecoration: "none" }} component={RouterLink} to="login">
+                      <MenuItem>Login</MenuItem>
+                    </Link>
+                    <Link color="inherit" sx={{ textDecoration: "none" }} component={RouterLink} to="register">
+                      <MenuItem>Register</MenuItem>
+                    </Link>
                   </Menu>
                 )}
               </Box>
