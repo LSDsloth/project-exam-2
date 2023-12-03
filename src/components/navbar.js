@@ -1,13 +1,12 @@
 import AppBar from "@mui/material/AppBar";
 import IconButton from "@mui/material/IconButton";
 import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
-import { Avatar, Box, Button, Container, Divider, Link, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
+import { Avatar, Box, Container, Divider, Link, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import { useState } from "react";
 
 export const MUINavbar = () => {
   const isLoggedIn = localStorage.getItem("isLoggedIn");
-
   console.log("Is logged in is set to: " + isLoggedIn);
   const storedProfile = localStorage.getItem("profile");
   let avatarPicture = null;
@@ -36,10 +35,12 @@ export const MUINavbar = () => {
 
   const handleLogOut = (e) => {
     e.preventDefault();
+    const profile = JSON.parse(storedProfile);
+    alert("You are logged out from " + profile.name);
     localStorage.setItem("accessToken", "");
     localStorage.setItem("isLoggedIn", false);
     localStorage.setItem("profile", "");
-    window.location.reload();
+    window.location.href = "/";
     // const accessToken = localStorage.getItem("accessToken");
     // console.log(accessToken);
   };
@@ -77,7 +78,7 @@ export const MUINavbar = () => {
                 <IconButton id="avatar-button" aria-label="profile" disableRipple aria-controls={open ? "avatar-menu-appbar" : undefined} aria-haspopup="true" onClick={(event) => handleMenuClick("avatar-menu-appbar", event)}>
                   <Avatar sx={{ alignSelf: "center", aspectRatio: "1 / 1", width: "40px", height: "40px" }} alt="" src={avatarPicture} />
                 </IconButton>
-                {isLoggedIn === true ? (
+                {isLoggedIn === true || isLoggedIn === "true" ? (
                   <Menu
                     id="avatar-menu-appbar"
                     anchorEl={anchorEl["avatar-menu-appbar"]}

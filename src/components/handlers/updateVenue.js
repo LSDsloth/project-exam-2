@@ -1,12 +1,15 @@
-import { PostVenue } from "../api/api";
+import { UpdateVenue } from "../api/api";
 import { venuesURL } from "../api/constants";
 
-export function postVenueFormEventListener(setHasFormError, venueId) {
-  const postVenueForm = document.querySelector("#postVenueForm");
+export function updateVenueFormEventListener(setHasFormError, venueId, formElement) {
+  const updateVenueForm = formElement || document.querySelector("#updateVenueForm");
 
-  postVenueForm.addEventListener("submit", async (e) => {
+  updateVenueForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const formData = new FormData(postVenueForm);
+
+    console.log("Inside updateVenueFormEventListener. VenueId:", venueId);
+
+    const formData = new FormData(updateVenueForm);
     const name = formData.get("name");
     const maxGuests = formData.get("maxGuests");
     const description = formData.get("description");
@@ -25,23 +28,30 @@ export function postVenueFormEventListener(setHasFormError, venueId) {
     const descriptionError = description.trim() === "";
     const priceError = price.trim() <= 0 || price.trim() === "";
 
+    console.log("VenueId inside updateVenueFormEventListener: ", venueId);
+
     // Display error messages or perform other actions based on errors
     if (nameError || maxGuestsError || descriptionError || priceError) {
       setHasFormError(true);
       console.log("Form has errors. Submission halted.");
     } else {
       setHasFormError(false);
-      const userData = {
-        name,
-        maxGuests: parseInt(maxGuests, 10),
-        description,
-        price: parseFloat(price),
-        media,
-        location,
-      };
 
-      console.log(userData);
-      await PostVenue(venuesURL, userData);
+      if (venueId) {
+        const userData = {
+          name,
+          maxGuests: parseInt(maxGuests, 10),
+          description,
+          price: parseFloat(price),
+          media,
+          location,
+        };
+
+        console.log(userData);
+        await UpdateVenue(venuesURL, venueId, userData);
+      } else {
+        console.log("VenueId is null. Cannot make the API request.");
+      }
     }
   });
 }

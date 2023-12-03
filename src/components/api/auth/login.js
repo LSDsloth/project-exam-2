@@ -20,12 +20,8 @@ export async function loginUser(url, userData) {
       storage.save("accessToken", accessToken);
       storage.save("profile", user);
       storage.save("isLoggedIn", true);
-      window.location.reload();
-
-      //   location.replace("../../../index.html");
-    } else if (response.status !== 200) {
-      //   loginError.innerHTML = user.errors[0].message;
-      console.log("Failed");
+      alert("You are now logged in as " + user.name);
+      window.location.href = "/";
     }
   } catch (error) {
     console.log(error);

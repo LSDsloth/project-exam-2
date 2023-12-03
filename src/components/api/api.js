@@ -78,8 +78,58 @@ export async function PostVenue(url, userData) {
 
   if (response.ok) {
     console.log("Went through");
+    alert("You have created a new post!");
+    window.location.href = "/";
   }
 }
+
+export async function UpdateVenue(url, venueId, userData) {
+  const accessToken = localStorage.getItem("accessToken");
+  const cleanedAccessToken = accessToken.replace(/^"|"$/g, "");
+  const postData = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${cleanedAccessToken}`,
+    },
+    body: JSON.stringify(userData),
+  };
+
+  console.log(userData);
+
+  try {
+    const response = await fetch(`${url}/${venueId}`, postData);
+    console.log(response);
+
+    const data = await response.json();
+    console.log("Data:", data);
+  } catch (error) {
+    console.error("Error:", error);
+    return null;
+  }
+}
+
+// export async function GetSingelVenue(url) {
+//   const [data, setData] = useState([]);
+
+//   try {
+//     const postData = {
+//       method: "GET",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//     };
+
+//     const response = await fetch(url, postData);
+//     console.log(response);
+//     const venue = await response.json();
+//     console.log(venue);
+//     setData(venue);
+//   } catch (error) {
+//     console.log(error);
+//   }
+//   return data;
+// }
 
 export function useGetProfile(url, entry) {
   const [venueData, setVenueData] = useState([]);
@@ -106,7 +156,7 @@ export function useGetProfile(url, entry) {
         setVenueData(venueData);
 
         const bookingResponse = await fetch(
-          `${url}/${name}/bookings?_venue=true&sort=dateFrom
+          `${url}/${name}/bookings?_venue=true&sort=dateFrom&sortOrder=asc
         `,
           postData
         );

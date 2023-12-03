@@ -10,9 +10,11 @@ import { MUIVenue } from "./components/venues";
 import { MUICreateVenue } from "./components/createVenue";
 import { MUIProfile } from "./components/profile";
 import { MUIBooking } from "./components/bookings";
+
 import { amber } from "@mui/material/colors";
 import { Container } from "@mui/material";
 import { MUIFooter } from "./components/footer";
+import { MUIUpdateVenue } from "./components/updateVenue";
 
 const darkTheme = createTheme({
   palette: {
@@ -37,6 +39,7 @@ function App() {
               <Route path="/login" element={<MUILogin />} />
               <Route path="/venues" element={<MUIVenue />} />
               <Route path="/create-venue" element={<MUICreateVenue />} />
+              <Route path="/update-venue" element={<MUIUpdateVenue />} />
               <Route path="/profile" element={<MUIProfile />} />
               <Route path="/bookings" element={<MUIBooking />} />
             </Routes>
