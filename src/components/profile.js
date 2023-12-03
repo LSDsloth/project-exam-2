@@ -2,7 +2,7 @@ import { Avatar, Box, Button, FormControl, FormControlLabel, Grid, IconButton, I
 import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { DeleteVenues, SetVenueManager, useGetProfile } from "./api/api";
-import { updateAvatarURL, venuesURL } from "./api/constants";
+import { bookingURL, updateAvatarURL, venuesURL } from "./api/constants";
 import { updateAvatarFormEventListener } from "./handlers/updateAvatar";
 import EditIcon from "@mui/icons-material/Edit";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
@@ -41,6 +41,11 @@ export const MUIProfile = () => {
   const deleteVenue = (venueId) => {
     handleMenuClose(venueId); // Close the menu after deleting
     DeleteVenues(venuesURL, venueId);
+  };
+
+  const deleteBooking = (bookingId) => {
+    handleMenuClose(bookingId);
+    DeleteVenues(bookingURL, bookingId);
   };
 
   // const fullId = element.id;
@@ -108,7 +113,7 @@ export const MUIProfile = () => {
 
   return (
     <>
-      <Stack>
+      <Stack spacing={5} sx={{ display: "flex" }}>
         <Box id="profile-wrapper">
           <Box
             onMouseEnter={() => setIsHovered(true)}
@@ -150,107 +155,113 @@ export const MUIProfile = () => {
           </Modal>
         </Box>
 
-        <Stack id="venues-wrapper">
-          <Typography component="h2" variant="h4">
-            Venues
-          </Typography>
-          <Grid className="CONTAINER" container rowSpacing={{ xs: 2, md: 4 }} columnSpacing={{ xs: 1, md: 2 }}>
-            {profile.venueManager === true ? (
-              venueData && venueData.length === 0 ? (
-                <Box gap={4} sx={{ display: "flex", flexDirection: "column", margin: "0 auto", marginY: "50px" }}>
-                  <Typography component="h2" variant="h4">
-                    You have not posted any venues yet
-                  </Typography>
-                  <Button component={RouterLink} variant="contained" to="../create-venue">
-                    Create your first venue
-                  </Button>
-                </Box>
-              ) : (
-                <>
-                  {venueData.map((venue) => (
-                    <Grid className="hide-tab" id={`my-venue-${venue.id}`} item key={venue.id} xs={12} sm={6} md={4} lg={3}>
-                      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                        <Typography component="h5">{venue.name}</Typography>
-                        <Box className="DIN-DRITT" position="relative">
-                          <IconButton size="small" aria-controls={open ? `edit-venue-menu-${venue.id}` : undefined} aria-haspopup="true" onClick={(event) => handleMenuClick(venue.id, event)}>
-                            <MoreVertIcon />
-                          </IconButton>
-                          <Menu id={`edit-venue-menu-${venue.id}`} anchorEl={anchorEl[venue.id]} open={Boolean(anchorEl[venue.id])} onClose={() => handleMenuClose(venue.id)}>
-                            <Link color="inherit" sx={{ textDecoration: "none" }} component={RouterLink} to="#">
-                              <MenuItem onClick={() => handleMenuClose(venue.id)}>Edit venue</MenuItem>
-                            </Link>
-                            <Box onClick={() => deleteVenue(venue.id)} sx={{ color: "error.main" }}>
-                              <MenuItem>Delete venue</MenuItem>
+        <Stack spacing={5}>
+          <Stack id="venues-wrapper">
+            <Typography component="h2" variant="h4">
+              Venues
+            </Typography>
+            <Grid className="CONTAINER" container rowSpacing={{ xs: 2, md: 4 }} columnSpacing={{ xs: 1, md: 2 }}>
+              {profile.venueManager === true ? (
+                venueData && venueData.length === 0 ? (
+                  <Box gap={4} sx={{ display: "flex", flexDirection: "column", margin: "0 auto", marginY: "50px" }}>
+                    <Typography component="h2" variant="h4">
+                      You have not posted any venues yet
+                    </Typography>
+                    <Button component={RouterLink} variant="contained" to="../create-venue">
+                      Create your first venue
+                    </Button>
+                  </Box>
+                ) : (
+                  <>
+                    {venueData.map((venue) => (
+                      <Grid id={`my-venue-${venue.id}`} item key={venue.id} xs={12} sm={6} md={4} lg={3}>
+                        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                          <Typography component="h5">{venue.name}</Typography>
+                          <Box className="DIN-DRITT" position="relative">
+                            <IconButton size="small" aria-controls={open ? `edit-venue-menu-${venue.id}` : undefined} aria-haspopup="true" onClick={(event) => handleMenuClick(venue.id, event)}>
+                              <MoreVertIcon />
+                            </IconButton>
+                            <Menu id={`edit-venue-menu-${venue.id}`} anchorEl={anchorEl[venue.id]} open={Boolean(anchorEl[venue.id])} onClose={() => handleMenuClose(venue.id)}>
+                              <Link color="inherit" sx={{ textDecoration: "none" }} component={RouterLink} to="#">
+                                <MenuItem onClick={() => handleMenuClose(venue.id)}>Edit venue</MenuItem>
+                              </Link>
+                              <Box onClick={() => deleteVenue(venue.id)} sx={{ color: "error.main" }}>
+                                <MenuItem>Delete venue</MenuItem>
+                              </Box>
+                            </Menu>
+                          </Box>
+                        </Box>
+                        <Box>
+                          <Link component={RouterLink} to={`.././venues?${venue.id}`}>
+                            <Box sx={{ aspectRatio: "16 / 9", overflow: "hidden", position: "relative" }}>
+                              <img
+                                className="venueImage"
+                                src={venue.media}
+                                alt={venue.name}
+                                onError={(e) => {
+                                  e.target.src = "../../images/placeholder.webp";
+                                }}></img>
                             </Box>
-                          </Menu>
+                          </Link>
+                          <Tooltip title="Address: {}">
+                            <Box sx={{ width: "fit-content", color: "lightgrey", float: "right", display: "flex" }}>
+                              <LocationOnIcon sx={{ fontSize: "1rem", color: "lightgrey" }} />
+                              <Typography variant="caption">
+                                {venue.location.city !== "Unknown" && venue.location.city + ", "} {venue.location.country !== "Unknown" && venue.location.country}
+                              </Typography>
+                            </Box>
+                          </Tooltip>
+                        </Box>
+                      </Grid>
+                    ))}
+                  </>
+                )
+              ) : (
+                <Box>
+                  <FormControl>
+                    <FormControlLabel control={<Switch checked={isVenueManager} onClick={handleChange} />} label="Be a venue manager" />
+                  </FormControl>
+                </Box>
+              )}
+            </Grid>
+          </Stack>
+          <Stack id="bookings-wrapper">
+            <Typography component="h2" variant="h4">
+              Upcoming bookings
+            </Typography>
+            <Grid className="CONTAINER" container rowSpacing={{ xs: 2, md: 4 }} columnSpacing={{ xs: 1, md: 2 }}>
+              {bookingData && bookingData.length >= 1 ? (
+                bookingData.map((booking) => {
+                  const formattedDate = new Date(booking.dateFrom).toLocaleString();
+                  return (
+                    <Grid id={`my-booking-${booking.id}`} item key={booking.id} xs={12} sm={6} md={4} lg={3}>
+                      <Box className="upcoming-events-widget">
+                        <Box>
+                          <Box sx={{ aspectRatio: "16 / 9", overflow: "hidden", position: "relative" }}>
+                            <img src={booking.venue.media} alt="event" />
+                          </Box>
+                          <Typography variant="caption">{formattedDate}</Typography>
+                          <Typography component="h3" variant="h6" className="event-name">
+                            {booking.venue.name}
+                          </Typography>
+                          <Typography variant="caption">
+                            {booking.venue.location.city.trim() === "" || booking.venue.location.city.trim() === "Unknown" ? "" : booking.venue.location.city + ", "}
+                            {booking.venue.location.country.trim() === "" || booking.venue.location.country.trim() === "Unknown" ? "" : booking.venue.location.country + ""}
+                          </Typography>
+                          <Typography className="event-details">{booking.venue.description}</Typography>
+                          <Link component={RouterLink} className="event-link">
+                            Learn More
+                          </Link>
                         </Box>
                       </Box>
-                      <Box>
-                        <Link component={RouterLink} to={`./venues?${venue.id}`}>
-                          <Box sx={{ aspectRatio: "16 / 9", overflow: "hidden", position: "relative" }}>
-                            <img
-                              className="venueImage"
-                              src={venue.media}
-                              alt={venue.name}
-                              onError={(e) => {
-                                e.target.src = "../../images/placeholder.webp";
-                              }}></img>
-                          </Box>
-                        </Link>
-                        <Tooltip title="Address: {}">
-                          <Box sx={{ width: "fit-content", color: "lightgrey", float: "right", display: "flex" }}>
-                            <LocationOnIcon sx={{ fontSize: "1rem", color: "lightgrey" }} />
-                            <Typography variant="caption">
-                              {venue.location.city !== "Unknown" && venue.location.city + ", "} {venue.location.country !== "Unknown" && venue.location.country}
-                            </Typography>
-                          </Box>
-                        </Tooltip>
-                      </Box>
                     </Grid>
-                  ))}
-                </>
-              )
-            ) : (
-              <Box>
-                <FormControl>
-                  <FormControlLabel control={<Switch checked={isVenueManager} onClick={handleChange} />} label="Be a venue manager" />
-                </FormControl>
-              </Box>
-            )}
-          </Grid>
-        </Stack>
-        <Stack id="bookings-wrapper">
-          <Typography component="h2" variant="h4">
-            Upcoming bookings
-          </Typography>
-          {bookingData && bookingData.length >= 1 ? (
-            bookingData.map((booking) => {
-              const formattedDate = new Date(booking.dateFrom).toLocaleString();
-              return (
-                <Stack key={booking.id}>
-                  <Box className="upcoming-events-widget">
-                    <Typography>Upcoming Events</Typography>
-                    <Box>
-                      <Box sx={{ width: "200px", aspectRatio: "16 / 9", position: "relative", overflow: "hidden" }}>
-                        <img src={booking.venue.media} alt="event" />
-                      </Box>
-                      <Typography className="event-name">{booking.venue.name}</Typography>
-                      <Typography className="event-details">{booking.venue.description}</Typography>
-                      <Link component={RouterLink} className="event-link">
-                        Learn More
-                      </Link>
-                    </Box>
-                    <Link component={RouterLink} className="see-all-events">
-                      See All Events
-                    </Link>
-                  </Box>
-                  <Typography>Date: {formattedDate}</Typography>
-                </Stack>
-              );
-            })
-          ) : (
-            <Typography>No bookings</Typography>
-          )}
+                  );
+                })
+              ) : (
+                <Typography>No bookings</Typography>
+              )}
+            </Grid>
+          </Stack>
         </Stack>
       </Stack>
     </>

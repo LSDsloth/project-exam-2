@@ -15,11 +15,13 @@ export async function loginUser(url, userData) {
     console.log(response);
     const { accessToken, ...user } = await response.json();
 
-    storage.save("accessToken", accessToken);
-    storage.save("profile", user);
     console.log(accessToken, user);
     if (response.status === 200) {
+      storage.save("accessToken", accessToken);
+      storage.save("profile", user);
       storage.save("isLoggedIn", true);
+      window.location.reload();
+
       //   location.replace("../../../index.html");
     } else if (response.status !== 200) {
       //   loginError.innerHTML = user.errors[0].message;

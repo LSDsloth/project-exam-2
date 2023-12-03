@@ -10,9 +10,9 @@ export function useApi(url, offset, limit) {
       setIsLoading(true);
       setIsError(false);
       const response = await fetch(`${url}?_owner=true&sort=created&offset=${offset}&limit=${limit}`);
-      console.log(response);
+      // console.log(response);
       const venues = await response.json();
-      console.log(venues);
+      // console.log(venues);
       setData(venues);
     } catch (error) {
       console.log(error);
@@ -31,6 +31,32 @@ export function useApi(url, offset, limit) {
   }, [fetchData]);
 
   return { data, isLoading, isError, refetch };
+}
+
+export async function PostBooking(url, userData) {
+  console.log("HAHAHAHAHA");
+  const accessToken = localStorage.getItem("accessToken");
+  const cleaneddAccesstoken = accessToken.replace(/^"|"$/g, "");
+  try {
+    const postData = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${cleaneddAccesstoken}`,
+      },
+      body: JSON.stringify(userData),
+    };
+    console.log(postData);
+    const response = await fetch(url, postData);
+    console.log(response);
+    const data = await response.json();
+    console.log(data);
+    if (response.ok) {
+      console.log("Went through");
+    }
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export async function PostVenue(url, userData) {

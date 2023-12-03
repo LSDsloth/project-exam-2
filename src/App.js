@@ -9,6 +9,7 @@ import { MUIRegister } from "./components/register";
 import { MUIVenue } from "./components/venues";
 import { MUICreateVenue } from "./components/createVenue";
 import { MUIProfile } from "./components/profile";
+import { MUIBooking } from "./components/bookings";
 import { amber } from "@mui/material/colors";
 import { Container } from "@mui/material";
 import { MUIFooter } from "./components/footer";
@@ -37,6 +38,7 @@ function App() {
               <Route path="/venues" element={<MUIVenue />} />
               <Route path="/create-venue" element={<MUICreateVenue />} />
               <Route path="/profile" element={<MUIProfile />} />
+              <Route path="/bookings" element={<MUIBooking />} />
             </Routes>
           </Container>
         </main>
