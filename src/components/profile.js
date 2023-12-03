@@ -179,7 +179,6 @@ export const MUIProfile = () => {
                   </Typography>
                   <Grid className="CONTAINER" container rowSpacing={{ xs: 2, md: 4 }} columnSpacing={{ xs: 1, md: 2 }}>
                     {venueData.map((venue) => {
-                      const formattedDate = new Date(venue.dateFrom).toLocaleString();
                       return (
                         <Grid id={`my-venue-${venue.id}`} item key={venue.id} xs={12} sm={6} md={4} lg={3}>
                           <Stack className="venues-widget" sx={{ backgroundColor: " #f8f8f8", padding: "15px", borderRadius: "8px" }}>
@@ -189,8 +188,7 @@ export const MUIProfile = () => {
                               </Box>
                             </Link>
                             <Box>
-                              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                                <Typography variant="caption">{formattedDate}</Typography>
+                              <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
                                 <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                                   <Box className="DIN-DRITT" position="relative">
                                     <IconButton size="small" aria-controls={open ? `edit-venue-menu-${venue.id}` : undefined} aria-haspopup="true" onClick={(event) => handleMenuClick(venue.id, event)}>
