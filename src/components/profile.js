@@ -205,9 +205,11 @@ export const MUIProfile = () => {
                                   </Box>
                                 </Box>
                               </Box>
-                              <Typography component="h3" variant="h6" className="event-name">
-                                {venue.name}
-                              </Typography>
+                              <Link component={RouterLink} to={`.././venues?${venue.id}`} sx={{ color: "inherit", textDecorationColor: "inherit" }}>
+                                <Typography component="h3" variant="h6" className="event-name">
+                                  {venue.name}
+                                </Typography>
+                              </Link>
                               <Tooltip
                                 title={
                                   <>
