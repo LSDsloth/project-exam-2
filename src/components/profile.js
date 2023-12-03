@@ -228,9 +228,11 @@ export const MUIProfile = () => {
                                   {venue.location.city.trim() !== "" && venue.location.city !== "Unknown" && venue.location.country.trim() !== "" && venue.location.country !== "Unknown" ? (
                                     <LocationOnIcon sx={{ fontSize: "1rem", color: "lightgrey" }} />
                                   ) : (
-                                    <Typography variant="caption">Location not specified</Typography>
+                                    <Typography sx={{ color: "secondary.main" }} variant="caption">
+                                      Location not specified
+                                    </Typography>
                                   )}
-                                  <Typography variant="caption">
+                                  <Typography sx={{ color: "secondary.main" }} variant="caption">
                                     {venue.location.city.trim() === "" || venue.location.city.trim() === "Unknown" ? "" : venue.location.city + ", "}
                                     {venue.location.country.trim() === "" || venue.location.country.trim() === "Unknown" ? "" : venue.location.country + ""}
                                   </Typography>
@@ -296,9 +298,11 @@ export const MUIProfile = () => {
                                 {booking.venue.location.city.trim() !== "" && booking.venue.location.city !== "Unknown" && booking.venue.location.country.trim() !== "" && booking.venue.location.country !== "Unknown" ? (
                                   <LocationOnIcon sx={{ fontSize: "1rem", color: "lightgrey" }} />
                                 ) : (
-                                  <Typography variant="caption">Location not specified</Typography>
+                                  <Typography sx={{ color: "secondary.main" }} variant="caption">
+                                    Location not specified
+                                  </Typography>
                                 )}
-                                <Typography variant="caption">
+                                <Typography sx={{ color: "secondary.main" }} variant="caption">
                                   {booking.venue.location.city.trim() === "" || booking.venue.location.city.trim() === "Unknown" ? "" : booking.venue.location.city + ", "}
                                   {booking.venue.location.country.trim() === "" || booking.venue.location.country.trim() === "Unknown" ? "" : booking.venue.location.country + ""}
                                 </Typography>

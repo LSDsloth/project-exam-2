@@ -14,24 +14,6 @@ export const MUIHome = () => {
 
   const { data, isLoading, isError, refetch } = useApi(venuesURL, offset, itemsPerPage);
 
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  // const handlePopoverClose = () => {
-  //   setAnchorEl(null);
-  // };
-
-  const open = Boolean(anchorEl);
-
-  // const [hoveredVenue, setHoveredVenue] = useState(null);
-
-  // const handleMouseEnter = (venueId) => {
-  //   setHoveredVenue(venueId);
-  // };
-
-  // const handleMouseLeave = () => {
-  //   setHoveredVenue(null);
-  // };
-
   useEffect(() => {
     refetch();
   }, [currentPage, refetch]);
@@ -104,7 +86,9 @@ export const MUIHome = () => {
                     {venue.location.city.trim() !== "" && venue.location.city !== "Unknown" && venue.location.country.trim() !== "" && venue.location.country !== "Unknown" ? (
                       <LocationOnIcon sx={{ fontSize: "1rem", color: "lightgrey" }} />
                     ) : (
-                      <Typography variant="caption">Location not specified</Typography>
+                      <Typography sx={{ color: "secondary.main" }} variant="caption">
+                        Location not specified
+                      </Typography>
                     )}
                     <Typography sx={{ color: "secondary.main" }} variant="caption">
                       {venue.location.city.trim() === "" || venue.location.city.trim() === "Unknown" ? "" : venue.location.city + ", "}
