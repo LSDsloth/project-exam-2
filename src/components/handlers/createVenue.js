@@ -11,7 +11,8 @@ export function postVenueFormEventListener(setHasFormError, venueId) {
     const maxGuests = formData.get("maxGuests");
     const description = formData.get("description");
     const price = formData.get("price");
-    const media = [formData.get("media")];
+    const mediaValue = formData.get("media");
+    const media = mediaValue ? [mediaValue] : [];
     const location = {
       address: formData.get("address"),
       city: formData.get("city"),

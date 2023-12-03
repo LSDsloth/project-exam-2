@@ -117,7 +117,7 @@ export const MUIHome = () => {
                   </Typography>
                 </Box>
               </Tooltip>
-              <Popover
+              {/* <Popover
                 open={open}
                 anchorEl={anchorEl}
                 onClose={handlePopoverClose}
@@ -129,15 +129,8 @@ export const MUIHome = () => {
                   vertical: "top",
                   horizontal: "left",
                 }}>
-                <Typography>{/* Your additional content goes here */}</Typography>
-              </Popover>
-              <Box
-                className="on-hover"
-                sx={{
-                  display: hoveredVenue === venue.id ? "block" : "none",
-                }}>
-                <Typography>{(venue.description.trim() === "" && "Has no description") || (venue.description.length > 60 ? `${venue.description.slice(0, 60)}...` : venue.description)}</Typography>
-              </Box>
+                <Typography>Pooooooop</Typography>
+              </Popover> */}
             </Stack>
           </Grid>
         ))}

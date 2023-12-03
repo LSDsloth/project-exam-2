@@ -160,23 +160,23 @@ export const MUIProfile = () => {
         </Box>
 
         <Stack spacing={5}>
-          <Stack id="venues-wrapper">
-            <Grid className="CONTAINER" container rowSpacing={{ xs: 2, md: 4 }} columnSpacing={{ xs: 1, md: 2 }}>
-              {profile.venueManager === true ? (
-                venueData && venueData.length === 0 ? (
-                  <Box gap={4} sx={{ display: "flex", flexDirection: "column", margin: "0 auto", marginY: "50px" }}>
-                    <Typography component="h2" variant="h4">
-                      You have not posted any venues yet
-                    </Typography>
-                    <Button component={RouterLink} variant="contained" to="../create-venue">
-                      Create your first venue
-                    </Button>
-                  </Box>
-                ) : (
-                  <>
-                    <Typography component="h2" variant="h4">
-                      Venues
-                    </Typography>
+          <Stack id="venues-wrapper" spacing={1}>
+            {profile.venueManager === true ? (
+              venueData && venueData.length === 0 ? (
+                <Box gap={4} sx={{ display: "flex", flexDirection: "column", margin: "0 auto", marginY: "50px" }}>
+                  <Typography component="h2" variant="h4">
+                    You have not posted any venues yet
+                  </Typography>
+                  <Button component={RouterLink} variant="contained" to="../create-venue">
+                    Create your first venue
+                  </Button>
+                </Box>
+              ) : (
+                <>
+                  <Typography component="h2" variant="h4">
+                    Venues
+                  </Typography>
+                  <Grid className="CONTAINER" container rowSpacing={{ xs: 2, md: 4 }} columnSpacing={{ xs: 1, md: 2 }}>
                     {venueData.map((venue) => {
                       const formattedDate = new Date(venue.dateFrom).toLocaleString();
                       return (
@@ -245,19 +245,19 @@ export const MUIProfile = () => {
                         </Grid>
                       );
                     })}
-                  </>
-                )
-              ) : (
-                <Box>
-                  <Typography component="p" variant="h6" maxWidth="700px">
-                    You are not a venue manager. As a venue manager you can lend your venues for others to book events at them.{" "}
-                  </Typography>
-                  <FormControl>
-                    <FormControlLabel control={<Switch checked={isVenueManager} onClick={handleChange} />} label="Be a venue manager" />
-                  </FormControl>
-                </Box>
-              )}
-            </Grid>
+                  </Grid>
+                </>
+              )
+            ) : (
+              <Box>
+                <Typography component="p" variant="h6" maxWidth="700px">
+                  You are not a venue manager. As a venue manager you can lend your venues for others to book events at them.{" "}
+                </Typography>
+                <FormControl>
+                  <FormControlLabel control={<Switch checked={isVenueManager} onClick={handleChange} />} label="Be a venue manager" />
+                </FormControl>
+              </Box>
+            )}
           </Stack>
           <Stack id="bookings-wrapper" spacing={1}>
             <Typography component="h2" variant="h4">
