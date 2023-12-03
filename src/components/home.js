@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { venuesURL } from "./api/constants";
 import { useApi } from "./api/api";
-import { Box, Grid, Tooltip, Typography, Link, CircularProgress, TextField, Pagination } from "@mui/material";
+import { Box, Grid, Tooltip, Typography, Link, CircularProgress, TextField, Pagination, Stack, Popover } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 
@@ -14,8 +14,25 @@ export const MUIHome = () => {
 
   const { data, isLoading, isError, refetch } = useApi(venuesURL, offset, itemsPerPage);
 
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+
+  const [hoveredVenue, setHoveredVenue] = useState(null);
+
+  const handleMouseEnter = (venueId) => {
+    setHoveredVenue(venueId);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredVenue(null);
+  };
+
   useEffect(() => {
-    // When the currentPage changes, refetch the data for the new page
     refetch();
   }, [currentPage, refetch]);
 
@@ -50,17 +67,17 @@ export const MUIHome = () => {
   console.log(venuesToDisplay);
 
   return (
-    <>
+    <Stack spacing={1}>
       <Box className="searchBar-wrapper">
         <TextField size="small" label="Search for a venue" variant="outlined" fullWidth value={searchQuery} onChange={handleSearch} />
       </Box>
-      <Grid container rowSpacing={{ xs: 2, md: 4 }} columnSpacing={{ xs: 1, md: 2 }}>
+      <Grid container rowSpacing={{ xs: 2, md: 4 }} columnSpacing={{ xs: 1, md: 2 }} sx={{ alignSelf: "center" }}>
         {filteredVenues.map((venue) => (
-          <Grid item key={venue.id} xs={12} sm={6} md={4} lg={3}>
-            <Typography component="h5" key={venue.id}>
-              {venue.name}
-            </Typography>
-            <Box>
+          <Grid item key={venue.id} xs={12} sm={6} md={4} lg={3} sx={{ paddingX: "8px" }} onMouseEnter={() => handleMouseEnter(venue.id)} onMouseLeave={handleMouseLeave}>
+            <Stack sx={{ padding: "10px 10px", borderRadius: "5px" }}>
+              <Typography component="h5" key={venue.id}>
+                {venue.name}
+              </Typography>
               <Link component={RouterLink} to={`./venues?${venue.id}`}>
                 <Box sx={{ aspectRatio: "16 / 9", overflow: "hidden", position: "relative" }}>
                   <img
@@ -73,19 +90,59 @@ export const MUIHome = () => {
                     }}></img>
                 </Box>
               </Link>
-              <Tooltip title="Address: {}">
-                <Box sx={{ width: "fit-content", color: "lightgrey", float: "right", display: "flex" }}>
-                  <LocationOnIcon sx={{ fontSize: "1rem", color: "lightgrey" }} />
+              <Tooltip
+                title={
+                  <>
+                    <Typography variant="body2">Address: {venue.location.address}</Typography>
+                    <Typography variant="body2">City: {venue.location.city}</Typography>
+                    <Typography variant="body2">Country: {venue.location.country}</Typography>
+                    <Typography variant="body2">Zip: {venue.location.zip}</Typography>
+                  </>
+                }>
+                <Box
+                  sx={{
+                    color: "lightgrey",
+                    display: "block",
+                    textAlign: "right",
+                  }}>
+                  {venue.location.city.trim() !== "" && venue.location.city !== "Unknown" && venue.location.country.trim() !== "" && venue.location.country !== "Unknown" ? (
+                    <LocationOnIcon sx={{ fontSize: "1rem", color: "lightgrey" }} />
+                  ) : (
+                    <Typography variant="caption">Location not specified</Typography>
+                  )}
                   <Typography variant="caption">
-                    {venue.location.city !== "Unknown" && venue.location.city + ", "} {venue.location.country !== "Unknown" && venue.location.country}
+                    {/* {venue.location.city.trim() !== "Unknown" && venue.location.city + ", " } */}
+                    {venue.location.city.trim() === "" || venue.location.city.trim() === "Unknown" ? "" : venue.location.city + ", "}
+                    {venue.location.country.trim() === "" || venue.location.country.trim() === "Unknown" ? "" : venue.location.country + ""}
                   </Typography>
                 </Box>
               </Tooltip>
-            </Box>
+              <Popover
+                open={open}
+                anchorEl={anchorEl}
+                onClose={handlePopoverClose}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}>
+                <Typography>{/* Your additional content goes here */}</Typography>
+              </Popover>
+              <Box
+                className="on-hover"
+                sx={{
+                  display: hoveredVenue === venue.id ? "block" : "none",
+                }}>
+                <Typography>{(venue.description.trim() === "" && "Has no description") || (venue.description.length > 60 ? `${venue.description.slice(0, 60)}...` : venue.description)}</Typography>
+              </Box>
+            </Stack>
           </Grid>
         ))}
       </Grid>
       <Pagination count={5} color="primary" page={currentPage} onChange={handlePageChange} />
-    </>
+    </Stack>
   );
 };

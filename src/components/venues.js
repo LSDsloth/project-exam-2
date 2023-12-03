@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Box, CircularProgress, Stack, Typography } from "@mui/material";
 import { useApi } from "./api/api";
 import { venuesURL } from "./api/constants";
 
@@ -28,10 +28,17 @@ export function MUIVenue() {
 
   return (
     <>
-      <Box>
-        <Typography>{venue.name}</Typography>
-        {/* Add other venue details here */}
-      </Box>
+      <Stack spacing={3} sx={{ maxWidth: "700px", margin: "0 auto" }}>
+        <Typography component="h1" variant="h3">
+          {venue.name}
+        </Typography>
+        <Box sx={{ width: "100%", aspectRatio: "16 /9", overflow: "hidden", position: "relative", margin: "0 auto" }}>
+          <img src={venue.media} alt={venue.name} />
+        </Box>
+        <Box>
+          <Typography>{venue.description}</Typography>
+        </Box>
+      </Stack>
     </>
   );
 }

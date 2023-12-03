@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, FormHelperText, InputAdornment, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, FormControl, FormHelperText, Stack, TextField, Typography } from "@mui/material";
 import { postVenueFormEventListener } from "./handlers/createVenue";
 import { useEffect, useState } from "react";
 export const MUICreateVenue = () => {
@@ -41,7 +41,19 @@ export const MUICreateVenue = () => {
               *
             </Typography>
           </label>
-          <TextField autoFocus onChange={handleNameChange} error={name.trim() === ""} helperText={name.trim() === "" ? "Cannot be blank" : ""} minLength="5" size="small" variant="outlined" id="name" name="name" aria-describedby="my-helper-text" />
+          <TextField
+            placeholder="Name of venue"
+            autoFocus
+            onChange={handleNameChange}
+            error={name.trim() === ""}
+            helperText={name.trim() === "" ? "Cannot be blank" : ""}
+            minLength="5"
+            size="small"
+            variant="outlined"
+            id="name"
+            name="name"
+            aria-describedby="my-helper-text"
+          />
         </FormControl>
         <FormControl required>
           <label required htmlFor="description">
@@ -51,6 +63,7 @@ export const MUICreateVenue = () => {
             </Typography>
           </label>
           <TextField
+            placeholder="Describe the place..."
             onChange={handleDescriptionChange}
             error={description.trim() === ""}
             helperText={description.trim() === "" ? "Cannot be blank" : ""}
@@ -65,7 +78,7 @@ export const MUICreateVenue = () => {
         </FormControl>
         <FormControl>
           <label htmlFor="image">Image</label>
-          <TextField size="small" id="image" type="url" name="media" startAdornment={<InputAdornment position="start">URL:</InputAdornment>} />
+          <TextField placeholder="www.example.com" size="small" id="media" type="url" name="media" />
         </FormControl>
         <Stack direction="row">
           <FormControl required>

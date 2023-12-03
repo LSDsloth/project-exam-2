@@ -32,14 +32,6 @@ export const MUINavbar = () => {
     }));
   };
 
-  const customColoredDates = [dayjs("2023-12-05"), dayjs("2023-12-12"), dayjs("2023-12-19")];
-
-  const renderCustomColoredDate = (date, dateAdapter) => {
-    const isCustomColored = customColoredDates.some((d) => dateAdapter.isSameDay(date, d));
-
-    return <div style={{ color: isCustomColored ? "red" : "inherit" }}>{dateAdapter.format(date, "D")}</div>;
-  };
-
   const handleLogOut = (e) => {
     e.preventDefault();
     localStorage.setItem("accessToken", "");
@@ -119,11 +111,7 @@ export const MUINavbar = () => {
                   MenuListProps={{
                     "aria-labelledby": "calendar-button",
                   }}>
-                  <MenuItem disableRipple>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DateCalendar renderDay={(date, _, DayProps) => <Box {...DayProps}>{renderCustomColoredDate(date, AdapterDayjs)}</Box>} />
-                    </LocalizationProvider>
-                  </MenuItem>
+                  <MenuItem disableRipple></MenuItem>
                 </Menu>
               </Box>
               <Box>
@@ -151,11 +139,6 @@ export const MUINavbar = () => {
                     </Box>
                   </Menu>
                 )}
-              </Box>
-              <Box>
-                <IconButton>
-                  <ShoppingCartOutlinedIcon />
-                </IconButton>
               </Box>
             </Box>
           </Toolbar>

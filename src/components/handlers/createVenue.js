@@ -11,6 +11,7 @@ export function postVenueFormEventListener(setHasFormError) {
     const maxGuests = formData.get("maxGuests");
     const description = formData.get("description");
     const price = formData.get("price");
+    const media = [formData.get("media")];
 
     // Check if there are errors
     const nameError = name.trim() === "";
@@ -32,6 +33,7 @@ export function postVenueFormEventListener(setHasFormError) {
         ...Object.fromEntries(formData.entries()),
         price: parseFloat(price),
         maxGuests: parseInt(maxGuests, 10), // Specify base 10 for parseInt
+        media,
       };
 
       console.log(userData);

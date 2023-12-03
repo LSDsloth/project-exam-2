@@ -174,6 +174,7 @@ export async function UpdateAvatar(url, avatarURL) {
     if (response.ok) {
       profile.avatar = data?.avatar;
       localStorage.setItem("profile", JSON.stringify(profile));
+      alert("Avatar successsfully updated!");
       window.location.reload();
     }
   } catch (error) {
