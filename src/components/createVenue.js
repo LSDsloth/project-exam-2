@@ -112,19 +112,19 @@ export const MUICreateVenue = () => {
         </Stack>
         <FormControl>
           <label htmlFor="address">Address</label>
-          <TextField size="small" id="address" type="text" name="address" aria-describedby="my-helper-text" min="1" max="100" />
+          <TextField size="small" id="address" type="text" name="address" />
         </FormControl>
         <FormControl>
           <label htmlFor="city">City</label>
-          <TextField size="small" id="city" type="text" name="city" aria-describedby="my-helper-text" min="1" max="100" />
+          <TextField size="small" id="city" type="text" name="city" />
         </FormControl>
         <FormControl>
           <label htmlFor="zip">Zip</label>
-          <TextField size="small" id="maxGuests" type="number" name="zip" aria-describedby="my-helper-text" min="1" max="100" />
+          <TextField size="small" id="maxGuests" type="number" name="zip" />
         </FormControl>
         <FormControl>
           <label htmlFor="country">Country</label>
-          <TextField size="small" id="country" type="text" name="country" aria-describedby="my-helper-text" min="1" max="100" />
+          <TextField size="small" id="country" type="text" name="country" />
         </FormControl>
         <Button variant="contained" type="submit">
           Submit
