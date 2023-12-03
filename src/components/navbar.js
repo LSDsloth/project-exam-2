@@ -1,12 +1,8 @@
 import AppBar from "@mui/material/AppBar";
 import IconButton from "@mui/material/IconButton";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Avatar, Box, Button, Container, Divider, Link, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
-import { DateCalendar, LocalizationProvider } from "@mui/x-date-pickers";
-import dayjs from "dayjs";
 import { Link as RouterLink } from "react-router-dom";
 import { useState } from "react";
 
