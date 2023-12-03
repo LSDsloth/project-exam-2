@@ -12,6 +12,10 @@ export function postVenueFormEventListener(setHasFormError) {
     const description = formData.get("description");
     const price = formData.get("price");
     const media = [formData.get("media")];
+    const address = [formData.get("address")];
+    const city = [formData.get("city")];
+    const zip = [formData.get("zip")];
+    const country = [formData.get("country")];
 
     // Check if there are errors
     const nameError = name.trim() === "";
@@ -34,6 +38,10 @@ export function postVenueFormEventListener(setHasFormError) {
         price: parseFloat(price),
         maxGuests: parseInt(maxGuests, 10), // Specify base 10 for parseInt
         media,
+        address,
+        city,
+        zip,
+        country,
       };
 
       console.log(userData);

@@ -41,19 +41,7 @@ export const MUICreateVenue = () => {
               *
             </Typography>
           </label>
-          <TextField
-            placeholder="Name of venue"
-            autoFocus
-            onChange={handleNameChange}
-            error={name.trim() === ""}
-            helperText={name.trim() === "" ? "Cannot be blank" : ""}
-            minLength="5"
-            size="small"
-            variant="outlined"
-            id="name"
-            name="name"
-            aria-describedby="my-helper-text"
-          />
+          <TextField placeholder="Name of venue" autoFocus onChange={handleNameChange} error={name.trim() === ""} helperText={name.trim() === "" ? "Cannot be blank" : ""} minLength="5" size="small" variant="outlined" id="name" name="name" />
         </FormControl>
         <FormControl required>
           <label required htmlFor="description">
