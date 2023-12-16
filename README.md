@@ -5,12 +5,14 @@ A simple overview of the use/purpose of the project.
 
 ## Description
 
-This is a website where you can scroll through auctions and bid. If you are not logged in you are restricted to only scroll through the different auctions. If you are logged in you can e.g enter a single auction page and view the details about the auction such as its title, description, current bids and even bid yourself. You can enter your profile page and make a listing or get an overview of all your listings or update avatar.  
+This is a website for creating and booking venues. If you are not logged in you can scroll through the listings at the homepage. You can also view an individual venue and see details such as title, description, and bookings for the specific venue.
+
+When you are logged in you can create a booking for a venue or create your own venue. Before you can create your own venue you must make yourself a venue manager, which you can do on your profile page. On your profile page you can also get a list of all your bookings and venues, as well as delete or edit your posted venue. You can also update your avatar.
 
 ## Built With
 
-- Javascript
-- [Bootstrap](https://getbootstrap.com)
+- [React](https://react.dev/)
+- [MUI](https://mui.com/)
 
 ## Getting Started with Create React App
 
